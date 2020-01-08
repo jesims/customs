@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 cd $(realpath $(dirname $0))
 #TODO: Source and load from common repository
-source ../project.sh
+source ./project.sh
 if [[ $? -ne 0 ]]; then
 	exit 1
 fi
