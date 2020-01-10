@@ -1,6 +1,6 @@
-(ns io.jesi.backpack.test.strict
+(ns io.jesi.customs.strict
   (:refer-clojure :exclude [=])
-  #?(:cljs (:require-macros [io.jesi.backpack.test.strict :refer [is]]))
+  #?(:cljs (:require-macros [io.jesi.customs.strict :refer [is]]))
   (:require
     [clojure.string :as str]
     [clojure.test :as test]

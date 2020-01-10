@@ -1,11 +1,11 @@
-(ns io.jesi.backpack.test.macros
-  #?(:cljs (:require-macros [io.jesi.backpack.test.macros]))
+(ns io.jesi.customs.macros
+  #?(:cljs (:require-macros [io.jesi.customs.macros]))
   (:require
     [clojure.core.async]
     [clojure.test :as test]
     [io.jesi.backpack.async :as async]
     [io.jesi.backpack.env :as env]
-    [io.jesi.backpack.test.strict :as strict]))
+    [io.jesi.customs.strict :as strict]))
 
 (defmacro async-go [& body]
   (if (env/cljs? &env)

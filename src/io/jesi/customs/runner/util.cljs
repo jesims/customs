@@ -1,4 +1,4 @@
-(ns io.jesi.backpack.test.runner.util
+(ns io.jesi.customs.runner.util
   (:require
     [cljs.test :as test]
     [clojure.string :as str]

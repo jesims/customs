@@ -1,4 +1,4 @@
-(ns io.jesi.backpack.test.reporter
+(ns io.jesi.customs.reporter
   (:require
     [cljs-test-display.core :as ctd]
     [cljs.test :as ct]

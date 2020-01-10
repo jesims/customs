@@ -1,4 +1,4 @@
-(ns io.jesi.backpack.test.strict-test
+(ns io.jesi.customs.strict-test
   (:require
     #?(:clj [io.jesi.backpack.macros :refer [macro?]])
     #?(:clj [kaocha.report :as report])
@@ -6,8 +6,8 @@
     [clojure.test :as test :refer [are deftest is testing]]
     [com.rpl.specter :as sp]
     [io.jesi.backpack.atom :as atom]
-    [io.jesi.backpack.test.strict :as strict :refer [thrown-with-msg? thrown?]]
-    [io.jesi.backpack.test.util :refer [is-macro=]])
+    [io.jesi.customs.strict :as strict :refer [thrown-with-msg? thrown?]]
+    [io.jesi.customs.util :refer [is-macro=]])
   #?(:clj (:import
             (clojure.lang Compiler$CompilerException))))
 
@@ -40,7 +40,7 @@
   (testing "use-fixtures"
     (is (= #?(:clj  '(clojure.test/use-fixtures :each identity)
               :cljs '(def cljs-test-each-fixtures [identity]))
-           (macroexpand '(io.jesi.backpack.test.strict/use-fixtures :each identity))))))
+           (macroexpand '(io.jesi.customs.strict/use-fixtures :each identity))))))
 
 (deftest is-test
 
@@ -85,7 +85,7 @@
                                                      :expected 'true
                                                      :actual   t#
                                                      :message  nil}))))
-                 (macroexpand '(io.jesi.backpack.test.strict/is true))))
+        (macroexpand '(io.jesi.customs.strict/is true))))
 
     (testing "takes"
 
@@ -158,7 +158,7 @@
                                                      :expected '(clojure.core/= 1 2 3)
                                                      :actual   t#
                                                      :message  nil}))))
-                 (macroexpand '(io.jesi.backpack.test.strict/is= 1 2 3))))
+        (macroexpand '(io.jesi.customs.strict/is= 1 2 3))))
 
     (testing "is the same as `(is (=`"
       (is (= (is (= 1 1))
@@ -189,7 +189,7 @@
     (testing "fails if empty"
       #?(:clj (let [reports (atom [])]
                 (with-redefs [test/report (partial atom/conj! reports)]
-                  (ns-unmap 'io.jesi.backpack.test.strict-test 'empty-deftest)
+                  (ns-unmap 'io.jesi.customs.strict-test 'empty-deftest)
                   (strict/deftest empty-deftest)
                   (test/test-var #'empty-deftest))
                 (let [{:keys [type message] :as report} (sp/select-one! [sp/ALL (comp (partial = :fail) :type)] @reports)]
@@ -202,7 +202,7 @@
                 :cljs '(do
                          (def testing (clojure.core/fn [] (cljs.test/test-var (.-cljs$lang$var testing))))
                          (set! (.-cljs$lang$var testing) #'testing)))
-             (macroexpand '(io.jesi.backpack.test.strict/deftest testing)))))
+             (macroexpand '(io.jesi.customs.strict/deftest testing)))))
 
     (testing "retains metadata"
       (is (true? (-> #'-deftest meta :preserved))))))
@@ -256,28 +256,28 @@
                              (cljs.test/try-expr "Test is empty" nil)
                              (finally
                                (cljs.test/update-current-env! [:testing-contexts] clojure.core/rest)))))
-               (macroexpand '(io.jesi.backpack.test.strict/testing "testing")))))
+               (macroexpand '(io.jesi.customs.strict/testing "testing")))))
 
       (testing "normally if not empty"
         (is (= #?(:clj  '(let* []
                            (clojure.core/push-thread-bindings (clojure.core/hash-map (var clojure.test/*testing-contexts*) (clojure.core/conj clojure.test/*testing-contexts* "testing")))
                            (try
                              (clojure.core/assert (io.jesi.backpack.string/not-blank? "testing"))
-                             (io.jesi.backpack.test.strict/is true)
-                             (io.jesi.backpack.test.strict/is= 1 1)
+                             (io.jesi.customs.strict/is true)
+                             (io.jesi.customs.strict/is= 1 1)
                              (finally
                                (clojure.core/pop-thread-bindings))))
                   :cljs '(do
                            (cljs.test/update-current-env! [:testing-contexts] clojure.core/conj "testing")
                            (try
                              (clojure.core/assert (io.jesi.backpack.string/not-blank? "testing"))
-                             (io.jesi.backpack.test.strict/is true)
-                             (io.jesi.backpack.test.strict/is= 1 1)
+                             (io.jesi.customs.strict/is true)
+                             (io.jesi.customs.strict/is= 1 1)
                              (finally
                                (cljs.test/update-current-env! [:testing-contexts] clojure.core/rest)))))
-               (macroexpand '(io.jesi.backpack.test.strict/testing "testing"
-                               (io.jesi.backpack.test.strict/is true)
-                               (io.jesi.backpack.test.strict/is= 1 1)))))))))
+               (macroexpand '(io.jesi.customs.strict/testing "testing"
+                               (io.jesi.customs.strict/is true)
+                               (io.jesi.customs.strict/is= 1 1)))))))))
 
 (deftest thrown?-test
 

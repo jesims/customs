@@ -9,6 +9,8 @@
       <sourceFolder url="file://$MODULE_DIR$/dev-resources" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/resources" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/test" isTestSource="true" />
+      <excludeFolder url="file://$MODULE_DIR$/.cljs_node_repl" />
+      <excludeFolder url="file://$MODULE_DIR$/docs" />
       <excludeFolder url="file://$MODULE_DIR$/node_modules" />
       <excludeFolder url="file://$MODULE_DIR$/out" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
@@ -52,7 +54,7 @@
     <orderEntry type="library" name="Leiningen: fipp:0.6.17" level="project" />
     <orderEntry type="library" name="Leiningen: hawk:0.2.11" level="project" />
     <orderEntry type="library" name="Leiningen: http-kit:2.3.0" level="project" />
-    <orderEntry type="library" name="Leiningen: io.jesi/backpack:4.2.0" level="project" />
+    <orderEntry type="library" name="Leiningen: io.jesi/backpack:4.2.1-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Leiningen: javax.inject:1" level="project" />
     <orderEntry type="library" name="Leiningen: javax.xml.bind/jaxb-api:2.3.0" level="project" />
     <orderEntry type="library" name="Leiningen: lambdaisland/deep-diff:0.0-47" level="project" />

@@ -1,4 +1,4 @@
-(ns io.jesi.backpack.test.runner.browser
+(ns io.jesi.customs.runner.browser
   "Based on shadow.test.browser"
   {:dev/always true}
   (:require
@@ -8,8 +8,8 @@
     [goog.dom :as gdom]
     [goog.dom.classlist :as classlist]
     [io.jesi.backpack.async :as async]
-    [io.jesi.backpack.test.reporter :refer [done-chan]]
-    [io.jesi.backpack.test.runner.util :refer [convert-event]]
+    [io.jesi.customs.reporter :refer [done-chan]]
+    [io.jesi.customs.runner.util :refer [convert-event]]
     [pjstadig.util :as util]
     [shadow.dom :as dom]
     [shadow.test :as st]

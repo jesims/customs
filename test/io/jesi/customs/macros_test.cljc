@@ -1,11 +1,11 @@
-(ns io.jesi.backpack.test.macros-test
+(ns io.jesi.customs.macros-test
   (:refer-clojure :exclude [=])
   (:require
     #?(:clj [io.jesi.backpack.macros :refer [macro?]])
     [io.jesi.backpack.async :as async]
-    [io.jesi.backpack.test.macros :refer [async-go]]
-    [io.jesi.backpack.test.strict :refer [= deftest is is= testing]]
-    [io.jesi.backpack.test.util :refer [is-macro=]]))
+    [io.jesi.customs.macros :refer [async-go]]
+    [io.jesi.customs.strict :refer [= deftest is is= testing]]
+    [io.jesi.customs.util :refer [is-macro=]]))
 
 (deftest async-go-test
 
@@ -23,7 +23,7 @@
                          (try
                            (is true)
                            (finally (done))))))
-           (macroexpand-1 '(io.jesi.backpack.test.macros/async-go (is true)))))
+           (macroexpand-1 '(io.jesi.customs.macros/async-go (is true)))))
 
     (testing "is a `clojure.test/async` `go` block"
       (async-go

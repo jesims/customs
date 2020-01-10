@@ -1,9 +1,16 @@
-(ns io.jesi.backpack.test.util
+(ns io.jesi.customs.util
   (:require
+    [clojure.pprint :as pprint]
     [clojure.string :as str]
     [clojure.test :refer [is]]
     [clojure.walk :refer [postwalk]]
     [io.jesi.backpack.macros :refer [shorthand]]))
+
+;TODO remove once updated to backpack 5.0.0
+(defn pprint-str [object]
+  (pprint/write object
+    :pretty true
+    :stream nil))
 
 (defn is-macro= [expected expanded]
   (is (= expected (->> expanded

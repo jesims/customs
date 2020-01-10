@@ -1,17 +1,11 @@
-(ns io.jesi.backpack.test.spy
-  #?(:clj  (:refer-clojure :exclude [peek prn])
-     :cljs (:refer-clojure :exclude [-name peek prn]))
-  #?(:cljs (:require-macros [io.jesi.backpack.test.spy :refer [pprint prn]]))
+(ns io.jesi.customs.spy
+  (:refer-clojure :exclude #?(:clj  [peek prn]
+                              :cljs [-name peek prn]))
+  #?(:cljs (:require-macros [io.jesi.customs.spy :refer [pprint prn]]))
   (:require
-    [clojure.pprint :as pprint]
     [io.jesi.backpack.collection :refer [trans-reduce]]
-    [io.jesi.backpack.macros :refer [when-debug when-not=]]))
-
-;TODO remove once updated to backpack 5.0.0
-(defn- pprint-str [object]
-  (pprint/write object
-    :pretty true
-    :stream nil))
+    [io.jesi.backpack.macros :refer [when-debug when-not=]]
+    [io.jesi.customs.util :refer [pprint-str]]))
 
 (def ^:dynamic *enabled* false)
 
@@ -54,21 +48,18 @@
                (for [form more]
                  `(println (str ~(str line \space (-name form) \: \newline) (pprint-str ~form)))))))))
 
-#?(:clj
-   (do
+(defmacro prn [& more]
+  #?(:clj (apply -prn *file* &form more)))
 
-     (defmacro prn [& more]
-       (apply -prn *file* &form more))
+(defmacro pprint [& more]
+  #?(:clj (apply -pprint *file* &form more)))
 
-     (defmacro pprint [& more]
-       (apply -pprint *file* &form more))
+(defmacro peek [val]
+  #?(:clj `(do
+             ~(-prn *file* &form val)
+             ~val)))
 
-     (defmacro peek [val]
-       `(do
-          ~(-prn *file* &form val)
-          ~val))
-
-     (defmacro ppeek [val]
-       `(do
-          ~(-pprint *file* &form val)
-          ~val))))
+(defmacro ppeek [val]
+  #?(:clj `(do
+             ~(-pprint *file* &form val)
+             ~val)))

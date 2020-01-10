@@ -1,10 +1,10 @@
-(ns io.jesi.backpack.test.leiningen
+(ns io.jesi.customs.leiningen
   (:require
     [clojure.java.io :as io]
     [clojure.tools.namespace.find :as ns-find]
     [com.rpl.specter :as sp]
     [io.jesi.backpack :as bp]
-    [io.jesi.backpack.test.strict :refer [is is=]]
+    [io.jesi.customs.strict :refer [is is=]]
     [leiningen.core.main]
     [leiningen.core.project :as project]
     [leiningen.jar])

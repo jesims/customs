@@ -1,10 +1,10 @@
-(ns io.jesi.backpack.test.spy-test
+(ns io.jesi.customs.spy-test
   (:refer-clojure :exclude [=])
   (:require
     [io.jesi.backpack :as bp]
     [io.jesi.backpack.macros :refer [shorthand]]
-    [io.jesi.backpack.test.spy :as spy]
-    [io.jesi.backpack.test.strict :refer [= deftest is is= testing use-fixtures]]))
+    [io.jesi.customs.spy :as spy]
+    [io.jesi.customs.strict :refer [= deftest is is= testing use-fixtures]]))
 
 (defn- set-debug [v]
   #?(:cljs (set! js/goog.DEBUG v)))
@@ -15,7 +15,7 @@
     (set-debug false)))
 
 (def file #?(:clj  *file*
-             :cljs "io.jesi.backpack.test.spy-test"))
+             :cljs "io.jesi.customs.spy-test"))
 
 #?(:clj (def line (atom nil)))
 

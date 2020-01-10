@@ -1,9 +1,9 @@
-(ns io.jesi.backpack.test.util-test
+(ns io.jesi.customs.util-test
   (:refer-clojure :exclude [=])
   (:require
     [io.jesi.backpack.random :as rnd]
-    [io.jesi.backpack.test.strict :refer [= deftest is is= testing]]
-    [io.jesi.backpack.test.util :as util])
+    [io.jesi.customs.strict :refer [= deftest is is= testing]]
+    [io.jesi.customs.util :as util])
   #?(:clj (:import
             (clojure.lang ExceptionInfo))))
 

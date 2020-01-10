@@ -1,11 +1,11 @@
-(ns io.jesi.backpack.test.leiningen-test
+(ns io.jesi.customs.leiningen-test
   (:refer-clojure :exclude [=])
   (:require
     [io.jesi.backpack :as bp]
     [io.jesi.backpack.macros :refer [def-]]
-    [io.jesi.backpack.test.leiningen :refer :all]
-    [io.jesi.backpack.test.spy :as spy]
-    [io.jesi.backpack.test.strict :refer :all]
+    [io.jesi.customs.leiningen :refer :all]
+    [io.jesi.customs.strict :refer :all]
+    [io.jesi.customs.util :refer [pprint-str]]
     [leiningen.compile :refer [regex?]]))
 
 (def- aot-project-path "test-projects/aot/project.clj")
@@ -42,7 +42,7 @@
                         "gen_class_example_2.clj"
                         "gen_class_example__init.class"
                         "normal.clj"]]
-        (let [error-msg (str "Could not find " required " in " (bp/pprint-str paths))]
+        (let [error-msg (str "Could not find " required " in " (pprint-str paths))]
           (if (regex? required)
             (is (some (partial re-matches required) paths) error-msg)
             (is (some (bp/p= required) paths) error-msg)))))))

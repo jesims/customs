@@ -13,15 +13,11 @@
                    :inherit [:plugins :managed-dependencies :deploy-repositories :dependencies :profiles :test-refresh :aliases :codox]}
   :managed-dependencies [[com.google.guava/guava "23.0"]
                          [io.jesi/customs ~(str VERSION "-SNAPSHOT")]]
-  :dependencies [[io.jesi/backpack "4.2.0"]                 ;TODO use managed version
+  :dependencies [[io.jesi/backpack "4.2.1-SNAPSHOT"]        ;TODO use managed version (at least 5.0)
                  [pjstadig/humane-test-output "0.10.0"]
                  ;CLJ
                  [org.clojure/clojure :scope "provided"]
                  [leiningen "2.9.1"]
                  [org.clojure/tools.namespace "0.3.1"]
                  ;CLJS
-                 [org.clojure/clojurescript :scope "provided"]]
-  :codox {:namespaces [io.jesi.backpack.test.spy
-                       io.jesi.backpack.test.macros
-                       io.jesi.backpack.test.strict
-                       io.jesi.backpack.test.util]})
+                 [org.clojure/clojurescript :scope "provided"]])

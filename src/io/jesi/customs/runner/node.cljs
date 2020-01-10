@@ -1,9 +1,8 @@
-(ns io.jesi.backpack.test.runner.node
+(ns io.jesi.customs.runner.node
   {:dev/always true}
   (:require
     [cljs.test :as ct]
-    [io.jesi.backpack.spy :as spy]
-    [io.jesi.backpack.test.runner.util :refer [convert-event]]
+    [io.jesi.customs.runner.util :refer [convert-event]]
     [pjstadig.humane-test-output]
     [shadow.test :as st]
     [shadow.test.env :as env]))

@@ -1,4 +1,4 @@
-(ns io.jesi.backpack.test.karma
+(ns io.jesi.customs.karma
   (:require
     [cljs.test :as ct]
     [shadow.test.karma :as karma]))
