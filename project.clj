@@ -9,10 +9,11 @@
             :comments     "same as Clojure"}
   :plugins [[lein-parent "0.3.7"]]
   :clean-targets [:target-path :compile-path "out"]
-  :parent-project {:coords  [io.jesi/parent "3.0.0-SNAPSHOT"] ;FIXME remove snapshot
+  :parent-project {:coords  [io.jesi/parent "3.0.1"]
                    :inherit [:plugins :managed-dependencies :deploy-repositories :dependencies :profiles :test-refresh :aliases :codox]}
-  :managed-dependencies [[com.google.guava/guava "23.0"]]
-  :dependencies [[io.jesi/backpack "5.0.0-SNAPSHOT"]        ;FIXME remove snapshot
+  :managed-dependencies [[com.google.guava/guava "23.0"]
+                         [io.jesi/customs ~(str VERSION "-SNAPSHOT")]]
+  :dependencies [[io.jesi/backpack "4.2.0"]                 ;TODO use managed version
                  [pjstadig/humane-test-output "0.10.0"]
                  ;CLJ
                  [org.clojure/clojure :scope "provided"]
