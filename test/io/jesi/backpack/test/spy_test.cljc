@@ -15,7 +15,7 @@
     (set-debug false)))
 
 (def file #?(:clj  *file*
-             :cljs "io.jesi.backpack.spy-test"))
+             :cljs "io.jesi.backpack.test.spy-test"))
 
 #?(:clj (def line (atom nil)))
 

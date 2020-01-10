@@ -25,7 +25,8 @@
     "karma-clear-screen-reporter": "^1.0.0",
     "karma-cljs-test": "0.1.0",
     "remark-cli": "^7.0.0",
-    "source-map-support": "^0.5.16"
+    "source-map-support": "^0.5.16",
+    "ws": "^7.2.1"
   },
   "dry": {
     "extends": "@io.jesi/parent/package-dry.json",

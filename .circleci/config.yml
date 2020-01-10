@@ -1,5 +1,5 @@
 #TODO use Clojure config
-version: 2
+version: 2.1
 aliases:
   cache:
     lein_cache: &LEIN_CACHE
@@ -32,7 +32,7 @@ jobs:
           <<: *LEIN_CACHE
       - restore_cache:
           <<: *NODE_CACHE
-      - run: './backpack.sh deps'
+      - run: './customs.sh deps'
       - save_cache:
           <<: *LEIN_CACHE
       - save_cache:
@@ -46,7 +46,7 @@ jobs:
           <<: *LEIN_CACHE
       - restore_cache:
           <<: *NODE_CACHE
-      - run: './backpack.sh lint'
+      - run: './customs.sh lint'
   test_clj:
     docker: *DEFAULT
     steps:
@@ -56,7 +56,7 @@ jobs:
           <<: *LEIN_CACHE
       - restore_cache:
           <<: *NODE_CACHE
-      - run: './backpack.sh test'
+      - run: './customs.sh test'
   test_cljs:
     docker: *DEFAULT
     steps:
@@ -66,17 +66,7 @@ jobs:
           <<: *LEIN_CACHE
       - restore_cache:
           <<: *NODE_CACHE
-      - run: './backpack.sh test-cljs'
-  test_docs:
-    docker: *DEFAULT
-    steps:
-      - *CANCEL_REDUNDANT
-      - checkout
-      - restore_cache:
-          <<: *LEIN_CACHE
-      - restore_cache:
-          <<: *NODE_CACHE
-      - run: './backpack.sh test-docs'
+      - run: './customs.sh test-cljs'
   snapshot:
     docker: *DEFAULT
     steps:
@@ -86,7 +76,7 @@ jobs:
           <<: *LEIN_CACHE
       - restore_cache:
           <<: *NODE_CACHE
-      - run: './backpack.sh snapshot'
+      - run: './customs.sh snapshot'
   release:
     docker: *DEFAULT
     steps:
@@ -96,7 +86,7 @@ jobs:
           <<: *LEIN_CACHE
       - restore_cache:
           <<: *NODE_CACHE
-      - run: './backpack.sh release'
+      - run: './customs.sh release'
 workflows:
   version: 2
   build:
@@ -111,15 +101,11 @@ workflows:
       - test_cljs:
           requires:
             - lint
-      - test_docs:
-          requires:
-            - lint
       - snapshot:
           context: JESI
           requires:
             - test_clj
             - test_cljs
-            - test_docs
           filters:
             branches:
               ignore: /^(master|develop)$/

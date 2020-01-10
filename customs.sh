@@ -1,26 +1,42 @@
 #!/usr/bin/env bash
-cd $(realpath $(dirname $0))
-#TODO: Source and load from common repository
-source ./project.sh
-if [[ $? -ne 0 ]]; then
+# shellcheck disable=2215
+cd "$(realpath "$(dirname "$0")")" || exit 1
+if ! source bindle/project.sh; then
 	exit 1
 fi
 
 ## deps:
 ## Installs all required dependencies for Clojure and ClojureScript
 deps () {
-	echo_message 'Installing dependencies'
-	lein -U deps
+	-deps
 }
 
 ## lint:
 lint () {
-	lein-dev lint
+	lein-lint &&
+	docs &&
+	require-committed docs
+	abort-on-error 'linting'
+}
+
+## clean:
+clean () {
+	lein-clean
 }
 
 ## test:
+## args: [-r]
 test () {
-	lein test
+	-test-clj "$@"
+}
+
+## test-cljs:
+## args: [-b|-r|-n]
+## [-n] run tests in NodeJS (default)
+## [-r] test refresh in browser
+## [-b] run tests in browser
+test-cljs () {
+	-test-cljs "$@"
 }
 
 ## snapshot:
@@ -28,7 +44,7 @@ test () {
 ## Pushes a snapshot to Clojars
 ## [-l] local
 snapshot () {
-	-snapshot $@
+	-snapshot "$@"
 }
 
 ## release:
@@ -37,10 +53,14 @@ release () {
 	-release
 }
 
+deploy () {
+	deploy-clojars
+}
+
 ## docs:
 ## Generate api documentation
 docs () {
-	-docs
+	lein-docs
 }
 
-script-invoke $@
+script-invoke "$@"

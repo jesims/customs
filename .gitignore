@@ -1,10 +1,12 @@
-*.iml
-.idea/dictionaries/
-.idea/libraries/
-.idea/workspace.xml
+.cljs_node_repl/
 .lein-failures
 .nrepl-port
+.remarkrc.js
 .shadow-cljs/
+/.idea/dictionaries/
+/.idea/libraries/
+/.idea/workspace.xml
+/out/
 node_modules/
 package.json
 pom.xml

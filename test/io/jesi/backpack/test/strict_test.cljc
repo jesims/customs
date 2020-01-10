@@ -1,6 +1,7 @@
 (ns io.jesi.backpack.test.strict-test
   (:require
     #?(:clj [io.jesi.backpack.macros :refer [macro?]])
+    #?(:clj [kaocha.report :as report])
     [clojure.string :as str]
     [clojure.test :as test :refer [are deftest is testing]]
     [com.rpl.specter :as sp]
@@ -163,7 +164,7 @@
       (is (= (is (= 1 1))
              (strict/is= 1 1))))))
 
-(strict/deftest ^:preserved -deftest true)
+(strict/deftest ^:preserved -deftest (is true))
 
 (deftest deftest-test
 
@@ -186,15 +187,15 @@
           (is (fn? test)))))
 
     (testing "fails if empty"
-      (let [reports (atom [])]
-        (with-redefs [test/do-report (partial atom/conj! reports)]
-          (ns-unmap 'io.jesi.backpack.test.strict-test 'empty-deftest)
-          (strict/deftest empty-deftest)
-          (test/test-var #'empty-deftest))
-        (let [{:keys [type message] :as report} (sp/select-one! [sp/ALL (comp (partial = :fail) :type)] @reports)]
-          (when (is (some? report))
-            (is (= :fail type))
-            (is (= "Test is empty" message))))))
+      #?(:clj (let [reports (atom [])]
+                (with-redefs [test/report (partial atom/conj! reports)]
+                  (ns-unmap 'io.jesi.backpack.test.strict-test 'empty-deftest)
+                  (strict/deftest empty-deftest)
+                  (test/test-var #'empty-deftest))
+                (let [{:keys [type message] :as report} (sp/select-one! [sp/ALL (comp (partial = :fail) :type)] @reports)]
+                  (when (is (some? report))
+                    (is (= :fail type))
+                    (is (= "Test is empty" message)))))))
 
     (testing "expands"
       (is (= #?(:clj  '(def testing (clojure.core/fn [] (clojure.test/test-var (var testing))))
