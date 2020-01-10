@@ -3,9 +3,15 @@
      :cljs (:refer-clojure :exclude [-name peek prn]))
   #?(:cljs (:require-macros [io.jesi.backpack.test.spy :refer [pprint prn]]))
   (:require
+    [clojure.pprint :as pprint]
     [io.jesi.backpack.collection :refer [trans-reduce]]
-    [io.jesi.backpack.macros :refer [when-debug when-not=]]
-    [io.jesi.backpack.miscellaneous :refer [pprint-str]]))
+    [io.jesi.backpack.macros :refer [when-debug when-not=]]))
+
+;TODO remove once updated to backpack 5.0.0
+(defn- pprint-str [object]
+  (pprint/write object
+    :pretty true
+    :stream nil))
 
 (def ^:dynamic *enabled* false)
 
