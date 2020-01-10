@@ -20,4 +20,5 @@
                  [leiningen "2.9.1"]
                  [org.clojure/tools.namespace "0.3.1"]
                  ;CLJS
-                 [org.clojure/clojurescript :scope "provided"]])
+                 [org.clojure/clojurescript :scope "provided"]]
+  :profiles {:dev [:parent/dev]})
