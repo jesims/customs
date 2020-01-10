@@ -4,13 +4,11 @@
 
 **DO** ensure the CI checks pass.
 
-**DO** update the [CHANGELOG](CHANGELOG.md) to reflect changes (include your Github identifier).
+**DO** update the [CHANGELOG](CHANGELOG.md) to reflect changes.
 
 **DO** update the [CONTRIBUTORS](CONTRIBUTORS.md) to append your name (if not already present).
 
 **DO** notify the project maintainers about any PR that has become stale. We're human and sometimes miss notifications.
-
-**DO** search [crossclj.info](https://crossclj.info/) when considering new additions to see if something already exists.
 
 **Don't** include more than one feature or fix in a single PR.
 
@@ -21,20 +19,19 @@
 ## Testing
 
 All utilities should be written to support both Clojure and ClojureScript with unit tests written in **CLJC** where practical.
-Unit tests can then be run by invoking `backpack.sh unit-test` or `backpack.sh unit-test-cljs` respectively.
+Unit tests can then be run by invoking `customs.sh test` or `customs.sh test-cljs` respectively.
 
-### Theme: Animal Safari
+### Theme: FIXME NEED A THEME
 
-We like to have a theme when testing code that requires data. This projects theme is animal facts (bonus points for Sir David Attenborough quotes).
-[View an example](./test/io/jesi/backpack/collection_test.cljc#L35)
+We like to have a theme when testing code that requires data. This projects theme is FIXME NEED A THEME
 
 ## Helper Utilities
 
-Many additional automation and helper utilities are provided within [backpack.sh](backpack.sh). Invoke `backpack.sh help` to find out more.
+Many additional automation and helper utilities are provided within [customs.sh](customs.sh). Invoke `customs.sh help` to find out more.
 
 ## Versioning
 
-> Backpack versions should follow the **Semver** convention.
+> Customs versions should follow the **Semver** convention.
 
 With version number of `MAJOR.MINOR.PATCH`, increment:
 
