@@ -5,8 +5,8 @@ aliases:
     lein_cache: &LEIN_CACHE
       key: lein-{{ checksum "project.clj" }}
       paths:
-        - ~/.lein
-        - ~/.m2
+        - /home/node/.lein
+        - /home/node/.m2
     node_cache: &NODE_CACHE
       key: node-{{ checksum "/tmp/.node_version" }}-{{ checksum "package-lock.json" }}
       paths:
