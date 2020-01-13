@@ -11,6 +11,12 @@ deps () {
 	-deps
 }
 
+## docs:
+## Generate api documentation
+docs () {
+	lein-docs
+}
+
 ## lint:
 lint () {
 	lein-lint &&
@@ -55,12 +61,6 @@ release () {
 
 deploy () {
 	deploy-clojars
-}
-
-## docs:
-## Generate api documentation
-docs () {
-	lein-docs
 }
 
 script-invoke "$@"
