@@ -8,7 +8,6 @@
 /.idea/workspace.xml
 /out/
 node_modules/
-package.json
 pom.xml
 target/
 trace.edn

@@ -19,7 +19,7 @@ docs () {
 
 ## lint:
 lint () {
-	lein-lint &&
+	-lint &&
 	docs &&
 	require-committed docs
 	abort-on-error 'linting'
