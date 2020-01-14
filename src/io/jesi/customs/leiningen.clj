@@ -4,7 +4,7 @@
     [clojure.tools.namespace.find :as ns-find]
     [com.rpl.specter :as sp]
     [io.jesi.backpack :as bp]
-    [io.jesi.customs.strict :refer :all]
+    [io.jesi.customs.strict :refer [is is=]]
     [leiningen.core.main]
     [leiningen.core.project :as project]
     [leiningen.jar])
