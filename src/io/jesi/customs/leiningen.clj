@@ -97,8 +97,7 @@
    (some-> jar-path list-zip)))
 
 (defn expected-meta-files [{:keys [name group] :as project}]
-  (let [group (.replace ^String group \. \/)
-        path (str group \/ name)]
+  (let [path (str group \/ name)]
     ["META-INF/"
      "META-INF/MANIFEST.MF"
      (str "META-INF/leiningen/" path "/project.clj")

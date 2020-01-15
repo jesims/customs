@@ -74,17 +74,20 @@
         (is (seq actual))
         (is (vector? actual))
 
-        (testing "of strings"
-          (is (every? string? actual))
+        (testing "of"
+
+          (testing "strings"
+            (is (every? string? actual)))
+
           (testing "paths for the usual meta data found in a .jar"
             (is= ["META-INF/"
                   "META-INF/MANIFEST.MF"
-                  "META-INF/leiningen/io/jesi/aot-test/project.clj"
+                  "META-INF/leiningen/io.jesi/aot-test/project.clj"
                   "META-INF/maven/"
-                  "META-INF/maven/io/jesi/"
-                  "META-INF/maven/io/jesi/aot-test/"
-                  "META-INF/maven/io/jesi/aot-test/pom.properties"
-                  "META-INF/maven/io/jesi/aot-test/pom.xml"]
+                  "META-INF/maven/io.jesi/"
+                  "META-INF/maven/io.jesi/aot-test/"
+                  "META-INF/maven/io.jesi/aot-test/pom.properties"
+                  "META-INF/maven/io.jesi/aot-test/pom.xml"]
                  actual)))))))
 
 (deftest find-gen-class-paths-test
