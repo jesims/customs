@@ -12,12 +12,18 @@
     (java.io StringWriter)
     (java.util.zip ZipInputStream)))
 
+(defn- set-type [type o]
+  (vary-meta o
+    assoc ::type type))
+
+
 (defn read-project
   ([] (read-project "project.clj"))
   ([file] (read-project file [:default]))
   ([file profiles]
    (project/ensure-dynamic-classloader)
-   (project/read file profiles)))
+   (->> (project/read file profiles)
+        (set-type :project))))
 
 (defn find-gen-class-ns
   "Returns a map of ns symbols and it's :gen-class definition (as a map)"
@@ -34,15 +40,33 @@
                               rest
                               (apply hash-map))])))
                (into {})))
-        (apply merge))))
+        (apply merge)
+        (set-type :gen-class-namespaces))))
+
+;TODO use prolog (core.logic) based derived value calculation
+; - register the transformations (e.g. nil to project, project to gen-class-ns)
+; - add "type" information to result
+; - defined the function with that it needs (e.g. I take whatever, but need gen-class-ns. it get's converted automatically)
+(defn find-gen-class-paths
+  "Returns the paths for gen-class namespaces"
+  ([] (find-gen-class-paths (read-project)))
+  ([project-or-gen-class-namespaces]
+   (case (-> project-or-gen-class-namespaces meta ::type)
+     :project (recur (find-gen-class-ns project-or-gen-class-namespaces))
+     :gen-class-namespaces (->> project-or-gen-class-namespaces
+                                (map (fn [[ns {:keys [name]}]]
+                                       (-> (or name ns)
+                                           str
+                                           (.replace \. \/)
+                                           (str ".class"))))))))
 
 (defn is-gen-class-in-aot
   ([] (is-gen-class-in-aot (read-project)))
   ([project]
    (let [aot (:aot project)]
      (when (is (seq aot))
-       (is= aot
-            (keys (find-gen-class-ns project)))))))
+       (is= (sort aot)
+            (sort (keys (find-gen-class-ns project))))))))
 
 (defn build-jar
   "Runs the `jar` command, returning the path of the built jar"
@@ -70,4 +94,16 @@
   ([]
    (-> (read-project) build-jar list-jar))
   ([jar-path]
-   (some-> jar-path list-zip seq)))
+   (some-> jar-path list-zip)))
+
+(defn expected-meta-files [{:keys [name group] :as project}]
+  (let [group (.replace ^String group \. \/)
+        path (str group \/ name)]
+    ["META-INF/"
+     "META-INF/MANIFEST.MF"
+     (str "META-INF/leiningen/" path "/project.clj")
+     "META-INF/maven/"
+     (str "META-INF/maven/" group "/")
+     (str "META-INF/maven/" path "/")
+     (str "META-INF/maven/" path "/pom.properties")
+     (str "META-INF/maven/" path "/pom.xml")]))

@@ -10,4 +10,5 @@
 node_modules/
 pom.xml
 target/
+tests.edn
 trace.edn

@@ -4,7 +4,8 @@
     [clojure.string :as str]
     [clojure.test :refer [is]]
     [clojure.walk :refer [postwalk]]
-    [io.jesi.backpack.macros :refer [shorthand]]))
+    [io.jesi.backpack.macros :refer [shorthand]]
+    [io.jesi.customs.strict :refer [is=]]))
 
 ;TODO remove once updated to backpack 5.0.0
 (defn pprint-str [object]
@@ -13,17 +14,18 @@
     :stream nil))
 
 (defn is-macro= [expected expanded]
-  (is (= expected (->> expanded
-                       (postwalk
-                         (fn [form]
-                           (if (symbol? form)
-                             ;TODO normalise reified objects
-                             (let [form-str (str form)
-                                   replaced (str/replace-first form-str #"__\d+(__auto__)?" "")]
-                               (if (not= form-str replaced)
-                                 (symbol (str replaced \#))
-                                 form))
-                             form)))))))
+  (is= expected
+       (->> expanded
+            (postwalk
+              (fn [form]
+                (if (symbol? form)
+                  ;TODO normalise reified objects
+                  (let [form-str (str form)
+                        replaced (str/replace-first form-str #"__\d+(__auto__)?" "")]
+                    (if (not= form-str replaced)
+                      (symbol (str replaced \#))
+                      form))
+                  form))))))
 
 #?(:clj
    (defn- ^:dynamic *sleep* [ms-duration]

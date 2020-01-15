@@ -21,4 +21,4 @@
                  [org.clojure/tools.namespace "0.3.1"]
                  ;CLJS
                  [org.clojure/clojurescript :scope "provided"]]
-  :profiles {:dev [:parent/dev]})
+  :profiles {:dev [:parent/dev {:dependencies [[lein-parent "0.3.7"]]}]})
