@@ -96,13 +96,26 @@
   ([jar-path]
    (some-> jar-path list-zip)))
 
-(defn expected-meta-files [{:keys [name group] :as project}]
-  (let [path (str group \/ name)]
-    ["META-INF/"
-     "META-INF/MANIFEST.MF"
-     (str "META-INF/leiningen/" path "/project.clj")
-     "META-INF/maven/"
-     (str "META-INF/maven/" group "/")
-     (str "META-INF/maven/" path "/")
-     (str "META-INF/maven/" path "/pom.properties")
-     (str "META-INF/maven/" path "/pom.xml")]))
+(defn expected-meta-files
+  "Returns paths for the usual meta data found in a .jar"
+  [{:keys [name group] :as project}]
+  (let [path (str group \/ name \/)
+        meta "META-INF/"
+        meta-maven (str meta "maven/")]
+    [meta
+     (str meta "MANIFEST.MF")
+     (str meta "leiningen/" path "project.clj")
+     meta-maven
+     (str meta-maven group "/")
+     (str meta-maven path)
+     (str meta-maven path "pom.properties")
+     (str meta-maven path "pom.xml")]))
+
+(defn is-jar-contains [project & other-files]
+  (let [zip-paths (-> project build-jar list-jar set)]
+    (when (is (seq zip-paths))
+      (doseq [required (concat
+                         (expected-meta-files project)
+                         (find-gen-class-paths project)
+                         other-files)]
+        (is (contains? zip-paths required) (str required " not found in jar"))))))

@@ -9,6 +9,8 @@
     [leiningen.compile :refer [regex?]]))
 
 (def- read-project (partial lein/read-project "test-projects/aot/project.clj"))
+(def- project (read-project))
+(def- project-with-install (read-project [:install]))
 
 (deftest find-gen-class-ns-test
 
@@ -18,17 +20,17 @@
                                  :main false}
           'secret.top.eyes-only {:name 'secret.top.EyesOnly}
           'secret.clearance     {}}
-         (lein/find-gen-class-ns (read-project)))))
+         (lein/find-gen-class-ns project))))
 
 (deftest is-gen-class-in-aot-test
 
   (testing "is-gen-class-in-aot"
-    (lein/is-gen-class-in-aot (read-project [:install]))))
+    (lein/is-gen-class-in-aot project-with-install)))
 
 (deftest list-jar-test
 
   (testing "list-jar"
-    (let [paths (-> (read-project) lein/build-jar lein/list-jar set)
+    (let [paths (-> project lein/build-jar lein/list-jar set)
           ;TODO automatic normalisation for auto symbols .e.g is-macro=
           required ["META-INF/"
                     "META-INF/MANIFEST.MF"
@@ -56,7 +58,8 @@
                     #"secret/top/eyes_only\$fn__.+\.class"
                     #"secret/top/eyes_only\$loading__.+__auto____.+\.class"
                     "secret/top/eyes_only.clj"
-                    "secret/top/eyes_only__init.class"]]
+                    "secret/top/eyes_only__init.class"
+                    "FILE"]]
       (is= (count paths)
            (count required))
       (doseq [required required]
@@ -68,7 +71,7 @@
 (deftest expected-meta-files-test
 
   (testing "expected-meta-files"
-    (let [actual (lein/expected-meta-files (read-project))]
+    (let [actual (lein/expected-meta-files project)]
 
       (testing "returns a vector"
         (is (seq actual))
@@ -100,3 +103,10 @@
             "secret/clearance.class"
             "secret/top/EyesOnly.class"]
            (lein/find-gen-class-paths (read-project))))))
+
+(deftest is-jar-contains-test
+
+  (testing "is-jar-contains"
+
+    (testing "checks the jar contains aot and extra files"
+      (lein/is-jar-contains project-with-install "FILE"))))
