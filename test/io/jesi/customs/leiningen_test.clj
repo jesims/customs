@@ -86,8 +86,3 @@
               (starts-with? "META-INF/")
               (partial contains? gen-class-path)
               (= "FILE"))))))))
-
-(deftest is-jar-only-aot-test
-
-  (testing "is-jar-only-aot"
-    (lein/is-jar-only-aot project-with-install "FILE")))

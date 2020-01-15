@@ -114,10 +114,3 @@
 (defn is-jar-paths-match [project pred]
   (doseq [path (zip-paths project)]
     (is (pred path) (str "Unexpected file " path))))
-
-(defn is-jar-only-aot [project & other-files]
-  (is= (sort (concat
-               (expected-meta-files project)
-               (find-gen-class-paths project)
-               other-files))
-       (sort (zip-paths project))))
