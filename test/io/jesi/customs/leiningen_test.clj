@@ -75,27 +75,6 @@
         (is (-> jar-path io/file (.exists)))
         (is (not (-> project-with-install :target-path (str "/classes") io/file (.exists))))))))
 
-(deftest is-jar-contains-required-test
-
-  (testing "is-jar-contains-required"
-
-    (testing "checks the jar contains AoT and extra files"
-      (lein/is-jar-contains-required project-with-install "FILE"))))
-
-(deftest is-jar-paths-match-test
-
-  (testing "is-jar-paths-match"
-
-    (testing "checks the entries in the jar match the given `pred`"
-      (let [gen-class-path (set (lein/find-gen-class-paths project-with-install))]
-        (lein/is-jar-paths-match project-with-install
-          (let [starts-with? #(bp/partial-right str/starts-with? %)
-                = bp/p=]
-            (bp/or-fn
-              (starts-with? "META-INF/")
-              (partial contains? gen-class-path)
-              (= "FILE"))))))))
-
 (deftest is-slim-jar-test
 
-  (lein/is-jar-only-aot project-with-install "FILE"))
+  (lein/is-slim-jar project-with-install "FILE"))

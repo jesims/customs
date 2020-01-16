@@ -114,19 +114,6 @@
      (str meta-maven path "pom.properties")
      (str meta-maven path "pom.xml")]))
 
-(defn is-jar-contains-required [project & other-files]
-  (let [zip-paths (set (list-jar project))]
-    (when (is (seq zip-paths))
-      (doseq [required (concat
-                         (expected-meta-files project)
-                         (find-gen-class-paths project)
-                         other-files)]
-        (is (contains? zip-paths required) (str required " not found in jar"))))))
-
-(defn is-jar-paths-match [project pred]
-  (doseq [path (list-jar project)]
-    (is (pred path) (str "Unexpected file " path))))
-
 (def- clojure-file-extensions (set (concat ns-file/clojure-extensions ns-file/clojurescript-extensions)))
 
 (defn- clojure-ns-paths [project]
