@@ -13,8 +13,6 @@ customs is a collection of common testing utility functions and helpers for Cloj
 
 <https://jesims.github.io/customs/>
 
-## Other Great (similar) Projects Include
-
 # Contributions
 
 Please use the project's GitHub issues page for all questions, ideas, etc.

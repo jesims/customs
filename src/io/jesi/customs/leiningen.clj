@@ -85,7 +85,6 @@
         (delete-dir (str (:target-path project) "/classes"))
         (some->> out (re-find #"(?<=Created ).+") str .trim)))))
 
-;TODO move to backpack?
 (defn- list-zip [file]
   (with-open [zip-stream (ZipInputStream. (io/input-stream file))]
     (loop [paths (transient [])]

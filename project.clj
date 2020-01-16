@@ -2,7 +2,7 @@
 
 (defproject io.jesi/customs VERSION
   :description "Clojure(Script) cross-project testing utilities"
-  :url "https://github.com/jesims/backpack"
+  :url "https://github.com/jesims/customs"
   :license {:name         "Eclipse Public License - v 1.0"
             :url          "http://www.eclipse.org/legal/epl-v10.html"
             :distribution :repo
