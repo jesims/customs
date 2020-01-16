@@ -63,4 +63,8 @@ deploy () {
 	deploy-clojars
 }
 
+deploy-snapshot () {
+	deploy-clojars
+}
+
 script-invoke "$@"
