@@ -5,7 +5,8 @@
     [clojure.test :refer [is]]
     [clojure.walk :refer [postwalk]]
     [io.jesi.backpack.macros :refer [shorthand]]
-    [io.jesi.customs.strict :refer [is=]]))
+    [io.jesi.customs.strict :refer [is=]]
+    [clojure.test :refer [is]]))
 
 ;TODO remove once updated to backpack 5.0.0
 (defn pprint-str [object]

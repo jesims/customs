@@ -6,4 +6,4 @@
 * [Elizabeth Forest](https://github.com/ElizabethForest)
 * [Jesse Bridge](https://github.com/jessebridge)
 
-See <https://github.com/jesims/backpack/graphs/contributors>
+See <https://github.com/jesims/customs/graphs/contributors>

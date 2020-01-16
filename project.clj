@@ -14,11 +14,12 @@
   :managed-dependencies [[com.google.guava/guava "23.0"]
                          [io.jesi/customs ~(str VERSION "-SNAPSHOT")]]
   :dependencies [[io.jesi/backpack "4.2.1"]                 ;TODO use managed version (at least 5.0)
-                 [pjstadig/humane-test-output "0.10.0"]
                  ;CLJ
                  [org.clojure/clojure :scope "provided"]
                  [leiningen "2.9.1" :exclusions [org.slf4j/slf4j-nop]]
                  [org.clojure/tools.namespace "0.3.1"]
                  ;CLJS
-                 [org.clojure/clojurescript :scope "provided"]]
+                 [thheller/shadow-cljs :scope "provided"]
+                 [org.clojure/clojurescript :scope "provided"]
+                 [pjstadig/humane-test-output "0.10.0"]]
   :profiles {:dev [:parent/dev {:dependencies [[lein-parent "0.3.7"]]}]})

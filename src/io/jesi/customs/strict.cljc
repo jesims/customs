@@ -9,6 +9,8 @@
   #?(:clj (:import
             (java.util.regex Pattern))))
 
+;FIXME Kaocha diff is not working. seems to not work with customs.strict assertions
+
 (defn =
   #?(:clj
      "Equality. Takes at least 2 args. Returns `true` if `x` equals `y`, `false` if not.

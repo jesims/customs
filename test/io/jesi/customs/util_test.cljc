@@ -2,7 +2,7 @@
   (:refer-clojure :exclude [=])
   (:require
     [io.jesi.backpack.random :as rnd]
-    [io.jesi.customs.strict :refer [= deftest is is= testing]]
+    [io.jesi.customs.strict :refer [= deftest is is= testing thrown-with-msg?]]
     [io.jesi.customs.util :as util])
   #?(:clj (:import
             (clojure.lang ExceptionInfo))))

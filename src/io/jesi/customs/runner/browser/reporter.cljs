@@ -1,4 +1,4 @@
-(ns io.jesi.customs.reporter
+(ns io.jesi.customs.runner.browser.reporter
   (:require
     [cljs-test-display.core :as ctd]
     [cljs.test :as ct]

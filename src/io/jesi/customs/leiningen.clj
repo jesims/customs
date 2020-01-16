@@ -82,10 +82,11 @@
         (recur (conj! paths (-> entry .getName)))
         (persistent! paths)))))
 
-(def- zip-paths
+(def ^{:arglists '([project])} list-jar
+  "Build and list (as a vector of strings) the contents of the .jar"
   (memoize
-    (fn zip-paths-fn [project]
-      (-> project build-jar list-zip))))
+    (fn list-jar-fn [project]
+      (some-> project build-jar list-zip))))
 
 (defn expected-meta-files
   "Returns paths for the usual meta data found in a .jar"
@@ -103,7 +104,7 @@
      (str meta-maven path "pom.xml")]))
 
 (defn is-jar-contains-required [project & other-files]
-  (let [zip-paths (set (zip-paths project))]
+  (let [zip-paths (set (list-jar project))]
     (when (is (seq zip-paths))
       (doseq [required (concat
                          (expected-meta-files project)
@@ -112,5 +113,5 @@
         (is (contains? zip-paths required) (str required " not found in jar"))))))
 
 (defn is-jar-paths-match [project pred]
-  (doseq [path (zip-paths project)]
+  (doseq [path (list-jar project)]
     (is (pred path) (str "Unexpected file " path))))

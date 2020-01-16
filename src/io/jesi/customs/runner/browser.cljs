@@ -8,7 +8,7 @@
     [goog.dom :as gdom]
     [goog.dom.classlist :as classlist]
     [io.jesi.backpack.async :as async]
-    [io.jesi.customs.reporter :refer [done-chan]]
+    [io.jesi.customs.runner.browser.reporter :refer [done-chan]]
     [io.jesi.customs.runner.util :refer [convert-event]]
     [pjstadig.util :as util]
     [shadow.dom :as dom]

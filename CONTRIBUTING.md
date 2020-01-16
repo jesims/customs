@@ -21,9 +21,9 @@
 All utilities should be written to support both Clojure and ClojureScript with unit tests written in **CLJC** where practical.
 Unit tests can then be run by invoking `customs.sh test` or `customs.sh test-cljs` respectively.
 
-### Theme: FIXME NEED A THEME
+### Theme: 007 and spycraft
 
-We like to have a theme when testing code that requires data. This projects theme is FIXME NEED A THEME
+We like to have a theme when testing code that requires data. This projects theme is 007 and general spycraft quotes.
 
 ## Helper Utilities
 
