@@ -1,6 +1,7 @@
 (ns io.jesi.customs.leiningen
   (:require
     [clojure.java.io :as io]
+    [io.jesi.customs.spy :as spy]
     [clojure.tools.namespace.find :as ns-find]
     [com.rpl.specter :as sp]
     [io.jesi.backpack :as bp]
@@ -60,6 +61,16 @@
       (is= (sort aot)
            (sort (keys (find-gen-class-ns project)))))))
 
+;TODO move to backpack?
+(defn- delete-dir [& dirs]
+  ;from https://gist.github.com/edw/5128978#gistcomment-2956766
+  (when-let [f (first dirs)]
+    (if-let [files (-> f io/file (.listFiles) seq)]
+      (recur (concat files dirs))
+      (do
+        (io/delete-file f)
+        (recur (rest dirs))))))
+
 (def ^{:arglists '([project])} build-jar
   "Runs the `jar` command, returning the path of the built jar"
   (memoize
@@ -71,7 +82,7 @@
                             leiningen.core.main/*exit-process?* false]
                     (leiningen.jar/jar project))
                   (-> s str .trim))]
-        (println out)
+        (delete-dir (str (:target-path project) "/classes"))
         (some->> out (re-find #"(?<=Created ).+") str .trim)))))
 
 ;TODO move to backpack?

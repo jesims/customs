@@ -7,7 +7,8 @@
     [io.jesi.customs.leiningen :as lein]
     [io.jesi.customs.strict :refer :all]
     [io.jesi.customs.util :refer [pprint-str]]
-    [leiningen.compile :refer [regex?]]))
+    [leiningen.compile :refer [regex?]]
+    [clojure.java.io :as io]))
 
 (def- read-project (partial lein/read-project "test-projects/aot/project.clj"))
 (def- project (read-project))
@@ -65,6 +66,16 @@
             "secret/clearance.class"
             "secret/top/EyesOnly.class"]
            (lein/find-gen-class-paths project)))))
+
+(deftest ^:focus build-jar-test
+
+  (testing "build-jar"
+
+    (testing "deletes target/classes dir when done"
+      (let [jar-path (lein/build-jar project-with-install)]
+        (is (seq jar-path))
+        (is (-> jar-path io/file (.exists)))
+        (is (not (-> project-with-install :target-path (str "/classes") io/file (.exists))))))))
 
 (deftest is-jar-contains-required-test
 
