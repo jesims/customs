@@ -128,8 +128,7 @@
     <orderEntry type="library" name="Leiningen: org.mozilla/rhino:1.7R5" level="project" />
     <orderEntry type="library" name="Leiningen: org.msgpack/msgpack:0.6.12" level="project" />
     <orderEntry type="library" name="Leiningen: org.ow2.asm/asm:5.2" level="project" />
-    <orderEntry type="library" name="Leiningen: org.slf4j/slf4j-api:1.7.25" level="project" />
-    <orderEntry type="library" name="Leiningen: org.slf4j/slf4j-nop:1.7.25" level="project" />
+    <orderEntry type="library" name="Leiningen: org.slf4j/slf4j-api:1.7.22" level="project" />
     <orderEntry type="library" name="Leiningen: org.tcrawley/dynapath:1.0.0" level="project" />
     <orderEntry type="library" name="Leiningen: pjstadig/humane-test-output:0.10.0" level="project" />
     <orderEntry type="library" name="Leiningen: progrock:0.1.2" level="project" />

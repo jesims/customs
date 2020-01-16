@@ -17,7 +17,7 @@
                  [pjstadig/humane-test-output "0.10.0"]
                  ;CLJ
                  [org.clojure/clojure :scope "provided"]
-                 [leiningen "2.9.1"]
+                 [leiningen "2.9.1" :exclusions [org.slf4j/slf4j-nop]]
                  [org.clojure/tools.namespace "0.3.1"]
                  ;CLJS
                  [org.clojure/clojurescript :scope "provided"]]
