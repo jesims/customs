@@ -1,20 +1,18 @@
 (ns io.jesi.customs.leiningen-test
   (:refer-clojure :exclude [=])
   (:require
+    [clojure.java.io :as io]
     [clojure.string :as str]
     [io.jesi.backpack :as bp]
     [io.jesi.backpack.macros :refer [def-]]
     [io.jesi.customs.leiningen :as lein]
     [io.jesi.customs.strict :refer :all]
     [io.jesi.customs.util :refer [pprint-str]]
-    [leiningen.compile :refer [regex?]]
-    [clojure.java.io :as io]))
+    [leiningen.compile :refer [regex?]]))
 
 (def- read-project (partial lein/read-project "test-projects/aot/project.clj"))
 (def- project (read-project))
 (def- project-with-install (read-project [:install]))
-
-
 
 (deftest find-gen-class-ns-test
 
@@ -67,7 +65,7 @@
             "secret/top/EyesOnly.class"]
            (lein/find-gen-class-paths project)))))
 
-(deftest ^:focus build-jar-test
+(deftest build-jar-test
 
   (testing "build-jar"
 
@@ -97,3 +95,7 @@
               (starts-with? "META-INF/")
               (partial contains? gen-class-path)
               (= "FILE"))))))))
+
+(deftest is-slim-jar-test
+
+  (lein/is-jar-only-aot project-with-install "FILE"))

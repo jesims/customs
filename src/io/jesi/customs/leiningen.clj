@@ -1,7 +1,7 @@
 (ns io.jesi.customs.leiningen
   (:require
     [clojure.java.io :as io]
-    [io.jesi.customs.spy :as spy]
+    [clojure.tools.namespace.file :as ns-file]
     [clojure.tools.namespace.find :as ns-find]
     [com.rpl.specter :as sp]
     [io.jesi.backpack :as bp]
@@ -11,7 +11,7 @@
     [leiningen.core.project :as project]
     [leiningen.jar])
   (:import
-    (java.io StringWriter)
+    (java.io File StringWriter)
     (java.util.zip ZipInputStream)))
 
 ;TODO add ability to clear memoization cache
@@ -126,3 +126,32 @@
 (defn is-jar-paths-match [project pred]
   (doseq [path (list-jar project)]
     (is (pred path) (str "Unexpected file " path))))
+
+(def- clojure-file-extensions (set (concat ns-file/clojure-extensions ns-file/clojurescript-extensions)))
+
+(defn- clojure-ns-paths [project]
+  (apply concat
+    (for [dir (:source-paths project)
+          :let [dir (io/file dir)
+                dir-path (-> dir .toPath)]]
+      (->> dir
+           file-seq
+           (filter (fn [^File f]
+                     (ns-file/file-with-extension? f clojure-file-extensions)))
+           (map (fn [^File f]
+                  (-> dir-path
+                      (.relativize (-> f .toPath))
+                      str)))))))
+
+(defn is-slim-jar
+  "Builds the project .jar and checks it only contains the required
+  `.class`, `.clj`, and `META-INF` files.
+  Use with leiningen `:jar-includes` and `:jar-excludes` `project.clj` settings."
+  [project & other-files]
+  (let [expected (sort (concat
+                         (expected-meta-files project)
+                         (find-gen-class-paths project)
+                         (clojure-ns-paths project)
+                         other-files))
+        actual (sort (list-jar project))]
+    (is= expected actual)))
