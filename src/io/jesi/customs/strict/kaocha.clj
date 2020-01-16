@@ -1,4 +1,5 @@
 (ns io.jesi.customs.strict.kaocha
+  (:refer-clojure :exclude [remove-ns])
   (:require
     [com.rpl.specter :as sp]
     [io.jesi.backpack :as bp]
