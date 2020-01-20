@@ -122,8 +122,7 @@
                 dir-path (-> dir .toPath)]]
       (->> dir
            file-seq
-           (filter (fn [^File f]
-                     (ns-file/file-with-extension? f clojure-file-extensions)))
+           (filter (bp/partial-right ns-file/file-with-extension? clojure-file-extensions))
            (map (fn [^File f]
                   (-> dir-path
                       (.relativize (-> f .toPath))

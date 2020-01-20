@@ -77,4 +77,5 @@
 
 (deftest is-slim-jar-test
 
-  (lein/is-slim-jar project-with-install "FILE"))
+  (testing "is-slim-jar"
+    (lein/is-slim-jar project-with-install "FILE")))
