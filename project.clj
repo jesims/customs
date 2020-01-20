@@ -24,4 +24,3 @@
                  [pjstadig/humane-test-output "0.10.0"]]
   :profiles {:dev [:parent/dev {:dependencies [[lein-parent "0.3.7"]
                                                [org.slf4j/slf4j-simple "1.7.30"]]}]})
-
