@@ -15,7 +15,6 @@
     form))
 
 (defplugin ::plugin
-
   (pre-report [{:keys [type actual expected] :as e}]
     (if (and (= :fail type)
              actual
