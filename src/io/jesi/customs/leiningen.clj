@@ -24,7 +24,7 @@
    (project/read file profiles)))
 
 (def ^{:arglists '([project])} find-gen-class-ns
-  "Returns a map of ns symbols and it's :gen-class definition (as a map)"
+  "Returns a map of ns symbols and its :gen-class definition (as a map)"
   (memoize
     (fn find-gen-class-ns-fn [project]
       (->> (for [dir (:source-paths project)]
