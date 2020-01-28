@@ -8,7 +8,8 @@ fi
 ## deps:
 ## Installs all required dependencies for Clojure and ClojureScript
 deps () {
-	-deps
+	#shellcheck disable=2215
+	-deps "$@"
 }
 
 ## docs:
