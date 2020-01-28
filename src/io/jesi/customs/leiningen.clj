@@ -115,28 +115,39 @@
 
 (def- clojure-file-extensions (set (concat ns-file/clojure-extensions ns-file/clojurescript-extensions)))
 
-(defn- clojure-ns-paths [project]
-  (apply concat
-    (for [dir (:source-paths project)
-          :let [dir (io/file dir)
-                dir-path (-> dir .toPath)]]
-      (->> dir
-           file-seq
-           (filter (bp/partial-right ns-file/file-with-extension? clojure-file-extensions))
-           (map (fn [^File f]
-                  (-> dir-path
-                      (.relativize (-> f .toPath))
-                      str)))))))
+(defn- relative-file-seq [pred ^File dir]
+  (let [dir-path (-> dir .toPath)]
+    (eduction
+      (filter (fn [^File f]
+                (.isFile f)))
+      (filter pred)
+      (map (fn [^File f]
+             (-> dir-path
+                 (.relativize (-> f .toPath))
+                 .toFile)))
+      (file-seq dir))))
+
+(defn- project-files
+  ([paths] (project-files any? paths))
+  ([pred paths]
+   (->> paths
+        (map (comp (partial relative-file-seq pred) io/file))
+        flatten
+        (map str))))
 
 (defn is-slim-jar
   "Builds the project .jar and checks it only contains the required
-  `.class`, `.clj`, and `META-INF` files.
+  `.class`, `.clj`, resource, and `META-INF` files.
   Use with leiningen `:jar-includes` and `:jar-excludes` `project.clj` settings."
-  [project & other-files]
+  [project]
   (let [expected (sort (concat
                          (expected-meta-files project)
                          (find-gen-class-paths project)
-                         (clojure-ns-paths project)
-                         other-files))
+                         (->> project
+                              :source-paths
+                              (project-files (bp/partial-right ns-file/file-with-extension? clojure-file-extensions)))
+                         (->> project
+                              :resource-paths
+                              project-files)))
         actual (sort (list-jar project))]
     (is= expected actual)))
