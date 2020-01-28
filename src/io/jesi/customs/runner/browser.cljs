@@ -2,9 +2,8 @@
   "Based on shadow.test.browser"
   {:dev/always true}
   (:require
-    [cljs-test-display.core :as ctd :refer [code contexts-node current-node current-node-parent div n printing span]]
+    [cljs-test-display.core :as ctd :refer [contexts-node current-node current-node-parent div n printing]]
     [cljs.test :as test]
-    [clojure.string :as str]
     [goog.dom :as gdom]
     [goog.dom.classlist :as classlist]
     [io.jesi.backpack.async :as async]

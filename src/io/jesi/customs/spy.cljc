@@ -4,7 +4,7 @@
   #?(:cljs (:require-macros [io.jesi.customs.spy :refer [pprint prn]]))
   (:require
     [io.jesi.backpack.collection :refer [trans-reduce]]
-    [io.jesi.backpack.macros :refer [when-debug when-not=]]
+    [io.jesi.backpack.macros :refer [when-debug]]
     [io.jesi.customs.util :refer [pprint-str]]))
 
 (def ^:dynamic *enabled* false)

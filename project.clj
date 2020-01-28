@@ -9,7 +9,7 @@
             :comments     "same as Clojure"}
   :plugins [[lein-parent "0.3.7"]]
   :clean-targets [:target-path :compile-path "out"]
-  :parent-project {:coords  [io.jesi/parent "3.0.2"]
+  :parent-project {:coords  [io.jesi/parent "3.3.0"]
                    :inherit [:plugins :managed-dependencies :deploy-repositories :dependencies :profiles :test-refresh :aliases :codox]}
   :managed-dependencies [[com.google.guava/guava "23.0"]
                          [io.jesi/backpack]]

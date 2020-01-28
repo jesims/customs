@@ -4,8 +4,7 @@
     [clojure.core.async]
     [clojure.test :as test]
     [io.jesi.backpack.async :as async]
-    [io.jesi.backpack.env :as env]
-    [io.jesi.customs.strict :as strict]))
+    [io.jesi.backpack.env :as env]))
 
 (defmacro async-go [& body]
   (if (env/cljs? &env)

@@ -2,7 +2,6 @@
   (:require
     [clojure.pprint :as pprint]
     [clojure.string :as str]
-    [clojure.test :refer [is]]
     [clojure.walk :refer [postwalk]]
     [io.jesi.backpack.macros :refer [shorthand]]
     [io.jesi.customs.strict :refer [is=]]))

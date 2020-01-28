@@ -2,12 +2,9 @@
   (:refer-clojure :exclude [=])
   #?(:cljs (:require-macros [io.jesi.customs.strict :refer [is]]))
   (:require
-    [clojure.string :as str]
     [clojure.test :as test]
     [io.jesi.backpack.env :as env]
-    [io.jesi.backpack.string :refer [not-blank?]])
-  #?(:clj (:import
-            (java.util.regex Pattern))))
+    [io.jesi.backpack.string :refer [not-blank?]]))
 
 ;FIXME Kaocha diff is not working. seems to not work with customs.strict assertions
 

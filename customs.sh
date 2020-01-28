@@ -19,10 +19,10 @@ docs () {
 
 ## lint:
 lint () {
-	-lint &&
-	docs &&
+	#shellcheck disable=2215
+	-lint
+	docs
 	require-committed docs
-	abort-on-error 'linting'
 }
 
 ## clean:
