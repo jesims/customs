@@ -31,7 +31,7 @@
              (->> dir
                   io/file
                   ns-find/find-ns-decls-in-dir
-                  (map (fn [ns-decl]
+                  (keep (fn [ns-decl]
                          (when-let [gen-class (sp/select-one [sp/ALL (bp/and-fn seqable? (bp/compr first (bp/p= :gen-class)))] ns-decl)]
                            [(second ns-decl)
                             (->> gen-class
