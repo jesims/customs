@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+#shellcheck disable=2215
 cd "$(realpath "$(dirname "$0")")" &&
 source bindle/project.sh
 if [ $? -ne 0 ];then
@@ -8,7 +9,6 @@ fi
 ## deps:
 ## Installs all required dependencies for Clojure and ClojureScript
 deps () {
-	#shellcheck disable=2215
 	-deps "$@"
 }
 
@@ -20,7 +20,6 @@ docs () {
 
 ## lint:
 lint () {
-	#shellcheck disable=2215
 	-lint
 	docs
 	require-committed docs

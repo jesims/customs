@@ -27,18 +27,20 @@
   "Returns a map of ns symbols and its :gen-class definition (as a map)"
   (memoize
     (fn find-gen-class-ns-fn [project]
-      (->> (for [dir (:source-paths project)]
-             (->> dir
-                  io/file
-                  ns-find/find-ns-decls-in-dir
-                  (keep (fn [ns-decl]
-                         (when-let [gen-class (sp/select-one [sp/ALL (bp/and-fn seqable? (bp/compr first (bp/p= :gen-class)))] ns-decl)]
-                           [(second ns-decl)
-                            (->> gen-class
-                                 rest
-                                 (apply hash-map))])))
-                  (into {})))
-           (apply merge)))))
+      (reduce
+        (fn [m dir]
+          (->> dir
+               io/file
+               ns-find/find-ns-decls-in-dir
+               (keep (fn [ns-decl]
+                       (when-let [gen-class (sp/select-one [sp/ALL (bp/and-fn seqable? (bp/compr first (bp/p= :gen-class)))] ns-decl)]
+                         [(second ns-decl)
+                          (->> gen-class
+                               rest
+                               (apply hash-map))])))
+               (into m)))
+        {}
+        (:source-paths project)))))
 
 ;TODO use prolog (core.logic) based derived value calculation
 ; - register the transformations (e.g. nil to project, project to gen-class-ns)
