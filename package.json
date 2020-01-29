@@ -1,0 +1,19 @@
+{
+  "name": "customs",
+  "version": "1.0.0",
+  "description": "Clojure(Script) cross-project testing utilities",
+  "homepage": "https://github.com/jesims/customs#readme",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jesims/customs.git"
+  },
+  "author": "JESI",
+  "license": "EPL-1.0",
+  "bugs": {
+    "url": "https://github.com/jesims/customs/issues"
+  },
+  "devDependencies": {
+    "ws": "^7.2.1"
+  }
+}

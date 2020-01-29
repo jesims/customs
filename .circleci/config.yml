@@ -1,0 +1,128 @@
+#TODO use Clojure config
+version: 2.1
+aliases:
+  cache:
+    lein_cache: &LEIN_CACHE
+      key: lein-{{ .Environment.CACHE_VERSION }}-{{ checksum "project.clj" }}
+      paths:
+        - /home/node/.lein
+        - /home/node/.m2
+    node_cache: &NODE_CACHE
+      key: node-{{ .Environment.CACHE_VERSION }}-{{ checksum "/tmp/.node_version" }}-{{ checksum "package-lock.json" }}
+      paths:
+        - node_modules
+  containers:
+    docker: &DEFAULT
+      - image: jesiio/build-bus:latest
+        user: node
+        environment:
+          JVM_OPTS: -Xmx3200m
+          DEBUG: 1
+  commands:
+    cancel_redundant: &CANCEL_REDUNDANT
+      run:
+        name: Check & Cancel Redundant Build
+        command: 'cancel-redundant-builds.sh'
+    submodule: &SUBMODULE
+      run: git submodule update --init
+jobs:
+  deps:
+    docker: *DEFAULT
+    steps:
+      - *CANCEL_REDUNDANT
+      - checkout
+      - *SUBMODULE
+      - restore_cache:
+          <<: *LEIN_CACHE
+      - restore_cache:
+          <<: *NODE_CACHE
+      - run: './customs.sh deps'
+      - save_cache:
+          <<: *LEIN_CACHE
+      - save_cache:
+          <<: *NODE_CACHE
+  lint:
+    docker: *DEFAULT
+    steps:
+      - *CANCEL_REDUNDANT
+      - checkout
+      - *SUBMODULE
+      - restore_cache:
+          <<: *LEIN_CACHE
+      - restore_cache:
+          <<: *NODE_CACHE
+      - run: './customs.sh lint'
+  test_clj:
+    docker: *DEFAULT
+    steps:
+      - *CANCEL_REDUNDANT
+      - checkout
+      - *SUBMODULE
+      - restore_cache:
+          <<: *LEIN_CACHE
+      - restore_cache:
+          <<: *NODE_CACHE
+      - run: './customs.sh test'
+  test_cljs:
+    docker: *DEFAULT
+    steps:
+      - *CANCEL_REDUNDANT
+      - checkout
+      - *SUBMODULE
+      - restore_cache:
+          <<: *LEIN_CACHE
+      - restore_cache:
+          <<: *NODE_CACHE
+      - run: './customs.sh test-cljs'
+  snapshot:
+    docker: *DEFAULT
+    steps:
+      - *CANCEL_REDUNDANT
+      - checkout
+      - *SUBMODULE
+      - restore_cache:
+          <<: *LEIN_CACHE
+      - restore_cache:
+          <<: *NODE_CACHE
+      - run: './customs.sh snapshot'
+  release:
+    docker: *DEFAULT
+    steps:
+      - *CANCEL_REDUNDANT
+      - checkout
+      - *SUBMODULE
+      - restore_cache:
+          <<: *LEIN_CACHE
+      - restore_cache:
+          <<: *NODE_CACHE
+      - run: './customs.sh release'
+workflows:
+  version: 2
+  build:
+    jobs:
+      - deps
+      - lint:
+          requires:
+            - deps
+      - test_clj:
+          requires:
+            - lint
+      - test_cljs:
+          requires:
+            - lint
+      - snapshot:
+          context: JESI
+          requires:
+            - test_clj
+            - test_cljs
+          filters:
+            branches:
+              ignore: /^(master|develop)$/
+      - release:
+          context: JESI
+          requires:
+            - test_clj
+            - test_cljs
+          filters:
+            branches:
+              only: master

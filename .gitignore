@@ -1,0 +1,16 @@
+.clj-kondo/
+.cljs_node_repl/
+.lein-failures
+.nrepl-port
+.remarkrc.js
+.shadow-cljs/
+/.idea/dictionaries/
+/.idea/libraries/
+/.idea/workspace.xml
+/out/
+node_modules/
+pom.xml
+project.edn
+target/
+tests.edn
+trace.edn
