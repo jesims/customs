@@ -95,7 +95,8 @@
           (testing "including managed dependency versions"
             (is (some (fn [[dependency version]]
                         (and (= 'org.clojure/clojure dependency)
-                             (string? version)))
+                             (string? version)
+                             (str/starts-with? version "1.")))
                   actual)))))
 
       (testing "can exclude dependencies"
