@@ -1,6 +1,7 @@
 # 1.1.0
 
 Added
+
 * Retrieve a vector of leiningen project dependencies
 
 # 1.0.0
