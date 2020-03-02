@@ -2,7 +2,7 @@
 
 Added
 
-* Retrieve a vector of leiningen project dependencies
+* `io.jesi.customs.leiningen/deps` returns a vector of leiningen project dependencies
 
 # 1.0.0
 
