@@ -153,3 +153,37 @@
                               project-files)))
         actual (sort (list-jar project))]
     (is= expected actual)))
+
+(defn- dependencies [project k]
+  (->> project
+       k
+       (map project/dependency-map)))
+
+(defn- fill-managed-versions [project dependencies-k managed-dependencies-k]
+  (let [deps-tree (reduce
+                    (fn [m {:keys [artifact-id group-id version]}]
+                      (assoc-in m [group-id artifact-id] version))
+                    {}
+                    (dependencies project managed-dependencies-k))]
+    (map (fn [{:keys [artifact-id group-id version] :as dep}]
+           (if (nil? version)
+             (assoc dep :version (get-in deps-tree [group-id artifact-id]))
+             dep))
+         (dependencies project dependencies-k))))
+
+;TODO have cljog support s3 wagon
+;TODO have cljog support dynamically adding repositories
+;TODO Consider moving out of customs (test utilities)
+(defn deps
+  "Builds a vector of dependencies (with versions) from the project.clj
+  Ideal for use with cljog"
+  [& excluding-deps]
+  (let [project (read-project)
+        deps-v (->> (fill-managed-versions project :dependencies :managed-dependencies)
+                    (map project/dependency-vec))]
+    (if (seq excluding-deps)
+      (let [excluding-deps (set excluding-deps)]
+        (filter (fn [[d :as dep]]
+                  (not (contains? excluding-deps d)))
+                deps-v))
+      deps-v)))

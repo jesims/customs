@@ -79,3 +79,26 @@
 
   (testing "is-slim-jar"
     (lein/is-slim-jar project-with-install)))
+
+(deftest deps-test
+
+  (testing "deps"
+    (let [lein-dependency 'leiningen/leiningen
+          contains-leiningen? (fn [[dependency version]]
+                                (and (= lein-dependency dependency)
+                                     (= "2.9.1" version)))]
+
+      (testing "returns a vector of dependencies"
+        (let [actual (lein/deps)]
+          (is (some contains-leiningen? actual))
+
+          (testing "including managed dependency versions"
+            (is (some (fn [[dependency version]]
+                        (and (= 'org.clojure/clojure dependency)
+                             (string? version)
+                             (str/starts-with? version "1.")))
+                  actual)))))
+
+      (testing "can exclude dependencies"
+        (let [actual (lein/deps lein-dependency)]
+          (is (not (some contains-leiningen? actual))))))))
