@@ -173,6 +173,7 @@
 
 ;TODO have cljog support s3 wagon
 ;TODO have cljog support dynamically adding repositories
+;TODO Consider moving out of customs (test utilities)
 (defn deps
   "Builds a vector of dependencies (with versions) from the project.clj
   Ideal for use with cljog"

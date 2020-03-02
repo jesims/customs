@@ -90,7 +90,13 @@
 
       (testing "returns a vector of dependencies"
         (let [actual (lein/deps)]
-          (is (some contains-leiningen? actual))))
+          (is (some contains-leiningen? actual))
+
+          (testing "including managed dependency versions"
+            (is (some (fn [[dependency version]]
+                        (and (= 'org.clojure/clojure dependency)
+                             (string? version)))
+                  actual)))))
 
       (testing "can exclude dependencies"
         (let [actual (lein/deps lein-dependency)]
