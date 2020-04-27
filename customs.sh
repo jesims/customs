@@ -42,7 +42,6 @@ test () {
 ## [-r] test refresh in browser
 ## [-b] run tests in browser
 test-cljs () {
-	export LEIN_DEV_PROFILE='+cljs'
 	-test-cljs "$@"
 }
 
@@ -81,7 +80,6 @@ outdated(){
 ## [-b] Watches and compiles tests for execution within a browser
 ## [-r] Watches tests and source files for changes, and subsequently re-evaluates with node
 test-shadow(){
-	export LEIN_DEV_PROFILE='+shadow-cljs'
 	-test-shadow-cljs "$@"
 }
 
