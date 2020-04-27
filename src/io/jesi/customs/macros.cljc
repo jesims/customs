@@ -18,5 +18,5 @@
                                ~@body))))
 
 (defmacro is-nil<? [body]
-  `(env/transform
-     (test/is (nil? (async/<? ~body)))))
+  (let [is (env/symbol &env `test/is)]
+    `(~is (nil? (async/<? ~body)))))

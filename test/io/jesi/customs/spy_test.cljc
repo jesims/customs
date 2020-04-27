@@ -1,7 +1,9 @@
 (ns io.jesi.customs.spy-test
-  (:refer-clojure :exclude [=])
+  #?(:cljs (:require-macros [io.jesi.customs.spy-test :refer [cljs? set-line]]))
+  (:refer-clojure :exclude [= ns-name])
   (:require
     [io.jesi.backpack :as bp]
+    [io.jesi.backpack.env :as env]
     [io.jesi.backpack.macros :refer [shorthand]]
     [io.jesi.customs.spy :as spy]
     [io.jesi.customs.strict :refer [= deftest is is= testing use-fixtures]]))
@@ -15,16 +17,18 @@
     (set-debug false)))
 
 (def file #?(:clj  *file*
-             :cljs "io.jesi.customs.spy-test"))
+             :cljs (-> #'set-debug meta :file)))
 
-#?(:clj (def line (atom nil)))
+(def ns-name (str 'io.jesi.customs.spy-test))
 
-;TODO use macro to get the line number
-(defn- set-line [n]
-  #?(:clj (str \: (reset! line n))))
+(def line (atom nil))
 
-(defn- add-line [n]
-  #?(:clj (str \: (swap! line + n))))
+(defmacro set-line [offset]
+  (let [n (+ (-> &form meta :line) offset)]
+    `(str \: (reset! line ~n))))
+
+(defn- add-line [offset]
+  (str \: (swap! line + offset)))
 
 (def a 1)
 (def b 2)
@@ -42,7 +46,7 @@
         (set-debug true)
 
         (testing "the specified values"
-          (is= (str file (set-line 46) " a: 1" \newline)
+          (is= (str file (set-line 1) " a: 1" \newline)
                (with-out-str (spy/prn a)))
           (is= (str file (add-line 2) " a: 1 b: 2" \newline)
                (with-out-str (spy/prn a b))))
@@ -79,12 +83,12 @@
         (set-debug true)
 
         (testing "the specified values"
-          (is= (str file (set-line 84) " a:" \newline
+          (is= (str file (set-line 2) " a:" \newline
                  "1" \newline)
                (with-out-str (spy/pprint a)))
           (is= (str file (add-line 5) " a:" \newline
                  "1" \newline
-                 file #?(:clj (str ":" @line)) " b:" \newline
+                 file (str ":" @line) " b:" \newline
                  "2" \newline)
                (with-out-str (spy/pprint a b)))
           (is= (str file (add-line 3) " c:" \newline
@@ -114,6 +118,9 @@
         (testing "enabled"
           (is (empty? (with-out-str (spy/pprint a)))))))))
 
+(defmacro cljs? []
+  (env/cljs? &env))
+
 (deftest peek-test
 
   (testing "peek"
@@ -125,14 +132,15 @@
       (spy/enabled
         (set-debug true)
         (let [result (atom nil)]
-          (is= (str file (set-line 129) " a: 1" \newline)
+          (is= (str file (set-line 1) " a: 1" \newline)
                (with-out-str (reset! result (spy/peek a))))
           (is= a @result)
 
           (testing "even in a thread macro (no line numbers since the &from metadata is not preserved)"
-            (is= (str file " a: 1" \newline)
-                 (with-out-str (reset! result (-> a spy/peek inc))))
-            (is= (inc a) @result)))))))
+            (let [file (if (cljs?) ns-name file)]
+              (is= (str file " a: 1" \newline)
+                   (with-out-str (reset! result (-> a spy/peek inc))))
+              (is= (inc a) @result))))))))
 
 (deftest ppeek-test
 
@@ -145,11 +153,13 @@
       (spy/enabled
         (set-debug true)
         (let [result (atom nil)]
-          (is= (str file (set-line 149) " a:" \newline "1" \newline)
+          (is= (str file (set-line 1) " a:" \newline "1" \newline)
                (with-out-str (reset! result (spy/ppeek a))))
           (is= a @result)
 
           (testing "even in a thread macro (no line numbers since the &from metadata is not preserved)"
-            (is= (str file " a:" \newline "1" \newline)
-                 (with-out-str (reset! result (-> a spy/ppeek inc))))
-            (is= (inc a) @result)))))))
+            (let [file (if (cljs?) ns-name file)]
+              (println "file:" file)
+              (is= (str file " a:" \newline "1" \newline)
+                   (with-out-str (reset! result (-> a spy/ppeek inc))))
+              (is= (inc a) @result))))))))

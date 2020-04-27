@@ -6,7 +6,7 @@
     [io.jesi.backpack.env :as env]
     [io.jesi.backpack.string :refer [not-blank?]]))
 
-;FIXME Kaocha diff is not working. seems to not work with customs.strict assertions
+#?(:cljs (enable-console-print!))
 
 (defn =
   #?(:clj
@@ -40,41 +40,42 @@
   matches (with `re-find`) the regular expression `re`."
   ([form]
    {:pre [(some? form)]}
-   `(env/transform
-      (test/is ~form)))
+   (let [is (env/symbol &env `test/is)]
+     `(~is ~form)))
   ([form msg]
    {:pre [(some? form)
           (some? msg)]}
-   `(env/transform
-      (do
+   (let [is (env/symbol &env `test/is)]
+     `(do
         (assert (not-blank? ~msg))
-        (test/is ~form ~msg)))))
+        (~is ~form ~msg)))))
 
 (defmacro is= [x y & more]
-  `(env/transform
-     (test/is (clojure.core/= ~x ~y ~@more))))
+  (let [is (env/symbol &env `test/is)]
+    `(~is (clojure.core/= ~x ~y ~@more))))
 
-(defn- default-body [body]
+(defn- default-body [env body]
   (if (seq body)
     body
-    [`(test/try-expr "Test is empty" nil)]))
+    (let [try-expr (env/symbol env `test/try-expr)]
+      [`(~try-expr "Test is empty" nil)])))
 
 (defmacro deftest
   "Like `clojure.test/deftest`, but will fail if `body` is empty."
   [name & body]
   {:pre [(symbol? name)]}
-  `(env/transform
-     (test/deftest ~name
-       ~@(default-body body))))
+  (let [deftest (env/symbol &env `test/deftest)]
+    `(~deftest ~name
+       ~@(default-body &env body))))
 
 (defmacro testing
   "Like `clojure.test/testing`, but will fail if `body` is empty."
   [string & body]
   {:pre [(some? string)]}
-  `(env/transform
-     (test/testing ~string
+  (let [testing (env/symbol &env `test/testing)]
+    `(~testing ~string
        (assert (not-blank? ~string))
-       ~@(default-body body))))
+       ~@(default-body &env body))))
 
 (defn thrown?
   "Checks that an instance of `c` is thrown from `body`, fails if not;
@@ -93,8 +94,8 @@
   {:pre [(seq argv)
          (some? expr)
          (seq args)]}
-  `(env/transform
-     (test/are ~argv ~expr ~@args)))
+  (let [are (env/symbol &env `test/are)]
+    `(~are ~argv ~expr ~@args)))
 
 (defmacro use-fixtures
   "Wrap test runs in a fixture function to perform setup and
@@ -103,5 +104,5 @@
   [type & fns]
   {:pre [(#{:once :each} type)
          (seq fns)]}
-  `(env/transform
-     (clojure.test/use-fixtures ~type ~@fns)))
+  (let [use-fixtures (env/symbol &env `test/use-fixtures)]
+    `(~use-fixtures ~type ~@fns)))

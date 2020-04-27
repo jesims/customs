@@ -8,9 +8,12 @@
 /.idea/libraries/
 /.idea/workspace.xml
 /out/
+karma.conf.js
 node_modules/
+package-dry.json
 pom.xml
 project.edn
+shadow-cljs.edn
 target/
 tests.edn
 trace.edn

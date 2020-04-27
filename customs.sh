@@ -42,6 +42,7 @@ test () {
 ## [-r] test refresh in browser
 ## [-b] run tests in browser
 test-cljs () {
+	export LEIN_DEV_PROFILE='+cljs'
 	-test-cljs "$@"
 }
 
@@ -65,6 +66,23 @@ deploy () {
 
 deploy-snapshot () {
 	deploy-clojars
+}
+
+## outdated:
+outdated(){
+	-outdated
+}
+
+## test-shadow:
+## args: [-r][-k|-b|-n]
+## Runs the ClojureScript unit tests using shadow-cljs and
+## [-k] Executes the tests targeting the browser running in karma (default)
+## [-n] Executes the tests targeting Node.js
+## [-b] Watches and compiles tests for execution within a browser
+## [-r] Watches tests and source files for changes, and subsequently re-evaluates with node
+test-shadow(){
+	export LEIN_DEV_PROFILE='+shadow-cljs'
+	-test-shadow-cljs "$@"
 }
 
 script-invoke "$@"
