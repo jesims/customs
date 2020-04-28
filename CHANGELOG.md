@@ -1,3 +1,11 @@
+# 1.1.1
+
+Fix 
+* StackOverflowError by not using `env/transform`
+
+Added
+* Tests in [shadow-cljs](https://github.com/thheller/shadow-cljs)
+
 # 1.1.0
 
 Added
