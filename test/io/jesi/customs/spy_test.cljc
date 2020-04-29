@@ -159,7 +159,6 @@
 
           (testing "even in a thread macro (no line numbers since the &from metadata is not preserved)"
             (let [file (if (cljs?) ns-name file)]
-              (println "file:" file)
               (is= (str file " a:" \newline "1" \newline)
                    (with-out-str (reset! result (-> a spy/ppeek inc))))
               (is= (inc a) @result))))))))
