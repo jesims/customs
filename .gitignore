@@ -10,7 +10,6 @@
 /out/
 karma.conf.js
 node_modules/
-package-dry.json
 pom.xml
 project.edn
 shadow-cljs.edn
