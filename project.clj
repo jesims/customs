@@ -19,7 +19,7 @@
                  [leiningen "2.9.1" :exclusions [org.slf4j/slf4j-nop]]
                  [org.clojure/tools.namespace "0.3.1"]
                  ;CLJS
-                 [thheller/shadow-cljs]
+                 [thheller/shadow-cljs :scope "provided"]
                  [pjstadig/humane-test-output "0.10.0"]]
   :profiles {:dev [:parent/dev {:dependencies [[org.slf4j/slf4j-simple "1.7.30"]
                                                [lein-parent "0.3.7"]]}]})
