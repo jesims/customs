@@ -12,7 +12,7 @@
   :parent-project {:coords  [io.jesi/parent "3.9.0"]
                    :inherit [:plugins :managed-dependencies :deploy-repositories :dependencies :profiles :test-refresh :aliases :codox]}
   :managed-dependencies [[com.google.guava/guava "23.0"]
-                         [io.jesi/backpack "5.1.2-SNAPSHOT"]] ;FIXME use managed 5.1.2 version
+                         [io.jesi/backpack "5.2.1-SNAPSHOT"]]
   :dependencies [[io.jesi/backpack]
                  ;CLJ
                  [org.clojure/clojure :scope "provided"]
