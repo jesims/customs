@@ -135,6 +135,7 @@ workflows:
           requires:
             - test_clj
             - test_cljs
+            - test_shadow
           filters:
             branches:
               only: master
