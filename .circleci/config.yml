@@ -15,16 +15,13 @@ aliases:
     docker: &DEFAULT
       - image: jesiio/build-bus:latest
         user: node
-        environment:
-          JVM_OPTS: -Xmx3200m
-          DEBUG: 1
   commands:
     cancel_redundant: &CANCEL_REDUNDANT
       run:
         name: Check & Cancel Redundant Build
         command: 'cancel-redundant-builds.sh'
     submodule: &SUBMODULE
-      run: git submodule update --init
+      run: git submodule update --init --recursive
 jobs:
   deps:
     docker: *DEFAULT
@@ -74,6 +71,17 @@ jobs:
       - restore_cache:
           <<: *NODE_CACHE
       - run: './customs.sh test-cljs'
+  test_shadow:
+    docker: *DEFAULT
+    steps:
+      - *CANCEL_REDUNDANT
+      - checkout
+      - *SUBMODULE
+      - restore_cache:
+          <<: *LEIN_CACHE
+      - restore_cache:
+          <<: *NODE_CACHE
+      - run: './customs.sh test-shadow -n'
   snapshot:
     docker: *DEFAULT
     steps:
@@ -110,11 +118,15 @@ workflows:
       - test_cljs:
           requires:
             - lint
+      - test_shadow:
+          requires:
+            - lint
       - snapshot:
           context: JESI
           requires:
             - test_clj
             - test_cljs
+            - test_shadow
           filters:
             branches:
               ignore: /^(master|develop)$/
@@ -123,6 +135,7 @@ workflows:
           requires:
             - test_clj
             - test_cljs
+            - test_shadow
           filters:
             branches:
               only: master

@@ -67,4 +67,20 @@ deploy-snapshot () {
 	deploy-clojars
 }
 
+## outdated:
+outdated(){
+	-outdated
+}
+
+## test-shadow:
+## args: [-r][-k|-b|-n]
+## Runs the ClojureScript unit tests using shadow-cljs and
+## [-k] Executes the tests targeting the browser running in karma (default)
+## [-n] Executes the tests targeting Node.js
+## [-b] Watches and compiles tests for execution within a browser
+## [-r] Watches tests and source files for changes, and subsequently re-evaluates with node
+test-shadow(){
+	-test-shadow-cljs "$@"
+}
+
 script-invoke "$@"
