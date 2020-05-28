@@ -1,3 +1,9 @@
+# 1.1.2
+
+Fix 
+
+* is-slim-jar not including resource dirs
+
 # 1.1.1
 
 Fix 

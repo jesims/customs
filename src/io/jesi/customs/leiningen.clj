@@ -1,6 +1,8 @@
 (ns io.jesi.customs.leiningen
   (:require
     [clojure.java.io :as io]
+    [clojure.set :as set]
+    [clojure.string :as str]
     [clojure.tools.namespace.file :as ns-file]
     [clojure.tools.namespace.find :as ns-find]
     [com.rpl.specter :as sp]
@@ -120,13 +122,13 @@
 (defn- relative-file-seq [pred ^File dir]
   (let [dir-path (-> dir .toPath)]
     (eduction
-      (filter (fn [^File f]
-                (.isFile f)))
       (filter pred)
       (map (fn [^File f]
-             (-> dir-path
-                 (.relativize (-> f .toPath))
-                 .toFile)))
+             [(-> f .isFile) f]))
+      (map (fn [[file? ^File f]]
+             [file? (-> dir-path
+                        (.relativize (-> f .toPath))
+                        .toFile)]))
       (file-seq dir))))
 
 (defn- project-files
@@ -134,8 +136,13 @@
   ([pred paths]
    (->> paths
         (map (comp (partial relative-file-seq pred) io/file))
-        flatten
-        (map str))))
+        (apply concat)
+        (eduction
+          (map (fn [[file? f]]
+                 (let [s (str f)]
+                   (when-not (str/blank? s)
+                     (str s (when-not file? \/))))))
+          (remove nil?)))))
 
 (defn is-slim-jar
   "Builds the project .jar and checks it only contains the required
@@ -169,7 +176,7 @@
            (if (nil? version)
              (assoc dep :version (get-in deps-tree [group-id artifact-id]))
              dep))
-         (dependencies project dependencies-k))))
+      (dependencies project dependencies-k))))
 
 ;TODO have cljog support s3 wagon
 ;TODO have cljog support dynamically adding repositories
@@ -185,5 +192,5 @@
       (let [excluding-deps (set excluding-deps)]
         (filter (fn [[d :as dep]]
                   (not (contains? excluding-deps d)))
-                deps-v))
+          deps-v))
       deps-v)))
