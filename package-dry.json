@@ -1,4 +1,5 @@
 {
+  "name": "customs",
   "dry": {
     "extends": "@io.jesi/parent/package-dry.json",
     "dependencies": {
