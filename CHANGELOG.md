@@ -1,3 +1,9 @@
+# 1.2.0
+
+Added
+
+* `io.jesi.customs.kaocha/reset-output`
+
 # 1.1.2
 
 Fix 

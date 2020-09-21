@@ -3,7 +3,7 @@
     [clojure.pprint :as pprint]
     [clojure.string :as str]
     [clojure.walk :refer [postwalk]]
-    [io.jesi.backpack.macros :refer [shorthand]]
+    [io.jesi.backpack.macros :refer [catch-> shorthand]]
     [io.jesi.customs.strict :refer [is=]]))
 
 ;TODO remove once updated to backpack 5.0.0
@@ -83,3 +83,15 @@
                                            (*js-clear-interval* @interval-id)
                                            (*js-clear-timeout* timeout-id))))
                   nil))))))
+
+;TODO move to backpack
+#?(:clj (do
+
+          (defn provided? [ns-sym]
+            (catch-> (constantly false)
+              (require ns-sym)
+              true))
+
+          (defmacro when-provided? [ns-sym & body]
+            `(when (provided? ~ns-sym)
+               ~@body))))
