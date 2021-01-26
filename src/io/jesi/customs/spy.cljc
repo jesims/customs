@@ -41,12 +41,18 @@
                           (conj! `(pr-str ~form))))
                       [line]
                       more))))))
+
 (defn- -pprint [file form & more]
   `(when-debug
      (when *enabled*
        (do ~@(let [line (line-number file form)]
                (for [form more]
                  `(println (str ~(str line \space (-name form) \: \newline) (pprint-str ~form)))))))))
+
+(defn- -msg [file form & more]
+  `(when-debug
+     (when *enabled*
+       (println ~(str (line-number file form) ":") ~@more))))
 
 (defmacro prn [& more]
   #?(:clj (apply -prn *file* &form more)))
@@ -63,3 +69,6 @@
   #?(:clj `(do
              ~(-pprint *file* &form val)
              ~val)))
+
+(defmacro msg [& more]
+  #?(:clj (apply -msg *file* &form more)))

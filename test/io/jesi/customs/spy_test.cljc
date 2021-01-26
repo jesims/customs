@@ -162,3 +162,17 @@
               (is= (str file " a:" \newline "1" \newline)
                    (with-out-str (reset! result (-> a spy/ppeek inc))))
               (is= (inc a) @result))))))))
+
+(deftest msg-test
+
+  (testing "msg"
+
+    #?(:clj (testing "is a macro"
+              (bp/macro? `spy/msg)))
+
+    (testing "print a message"
+      (spy/enabled
+        (set-debug true)
+        (let [msg "There should be a theme"]
+          (is= (str file (set-line 1) ": " msg \newline)
+               (with-out-str (spy/msg msg))))))))

@@ -1,5 +1,9 @@
 # 1.2.1
 
+Added
+
+* `io.jesi.customs.spy/msg`
+
 Removed
 
 * `js/console.clear` from `io.jesi.customs.runner.browser/start`
