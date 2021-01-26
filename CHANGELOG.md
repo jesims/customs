@@ -1,3 +1,9 @@
+# 1.2.1
+
+Removed
+
+* `js/console.clear` from `io.jesi.customs.runner.browser/start`
+
 # 1.2.0
 
 Added
