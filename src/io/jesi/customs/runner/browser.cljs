@@ -36,7 +36,6 @@
       (test/inc-report-counter! :fail))))
 
 (defn start []
-  (js/console.clear)
   (-> (env/get-test-data)
       (env/reset-test-data!))
   (st/run-all-tests (ctd/init! "test-root")))
