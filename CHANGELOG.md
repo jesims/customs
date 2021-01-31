@@ -1,12 +1,23 @@
-# 1.2.1
+# 1.3.0
 
 Added
 
 * `io.jesi.customs.spy/msg`
 
-Removed
+Fixed:
 
-* `js/console.clear` from `io.jesi.customs.runner.browser/start`
+* `io.jesi.customs.spy/peek` and `ppeek` evaluating the form twice
+
+Removed:
+
+* `js/console.clear` from `io.jesi.customs.runner.browser/start`. \
+  If you want the console cleared after reload,
+  use [shadow-cljs `^:dev/after-load` lifecycle hook metadata](https://shadow-cljs.github.io/docs/UsersGuide.html#\_metadata):
+
+```clojure
+(defn ^:dev/after-load clear-console []
+  (js/console.clear))
+```
 
 # 1.2.0
 
