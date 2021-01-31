@@ -6,7 +6,8 @@
     [io.jesi.backpack.env :as env]
     [io.jesi.backpack.macros :refer [shorthand]]
     [io.jesi.customs.spy :as spy]
-    [io.jesi.customs.strict :refer [= deftest is is= testing use-fixtures]]))
+    [io.jesi.customs.strict :refer [= deftest is is= testing use-fixtures]]
+    [io.jesi.customs.util :refer [is-macro=]]))
 
 (defn- set-debug [v]
   #?(:cljs (set! js/goog.DEBUG v)))
@@ -128,6 +129,15 @@
     #?(:clj (testing "is a macro"
               (bp/macro? `spy/peek)))
 
+    #?(:clj (comment                                        ;Fails since Actual is a vector (not a list)
+              (testing "expands"
+                (is-macro= '(io.jesi.backpack.macros/when-debug
+                              (when io.jesi.customs.spy/*enabled*
+                                (let [v# (inc 1)]
+                                  (println "user:138 (inc 1):" (pr-str v#))
+                                  v#)))
+                           (macroexpand-1 '(io.jesi.customs.spy/peek (inc 1)))))))
+
     (testing "prns (using spy/prn) and return the passed in value"
       (spy/enabled
         (set-debug true)
@@ -140,7 +150,16 @@
             (let [file (if (cljs?) ns-name file)]
               (is= (str file " a: 1" \newline)
                    (with-out-str (reset! result (-> a spy/peek inc))))
-              (is= (inc a) @result))))))))
+              (is= (inc a) @result))))))
+
+    (testing "evaluates the form once"
+      (spy/enabled
+        (set-debug true)
+        (let [calls (atom 0)
+              f (fn []
+                  (swap! calls inc))]
+          (is= 1 (spy/peek (f)))
+          (is= 1 @calls))))))
 
 (deftest ppeek-test
 
@@ -161,4 +180,27 @@
             (let [file (if (cljs?) ns-name file)]
               (is= (str file " a:" \newline "1" \newline)
                    (with-out-str (reset! result (-> a spy/ppeek inc))))
-              (is= (inc a) @result))))))))
+              (is= (inc a) @result))))))
+
+    (testing "evaluates the form once"
+      (spy/enabled
+        (set-debug true)
+        (let [calls (atom 0)
+              f (fn []
+                  (swap! calls inc))]
+          (is= 1 (spy/ppeek (f)))
+          (is= 1 @calls))))))
+
+(deftest msg-test
+
+  (testing "msg"
+
+    #?(:clj (testing "is a macro"
+              (bp/macro? `spy/msg)))
+
+    (testing "print a message"
+      (spy/enabled
+        (set-debug true)
+        (let [msg "There should be a theme"]
+          (is= (str file (set-line 1) ": " msg \newline)
+               (with-out-str (spy/msg msg))))))))
