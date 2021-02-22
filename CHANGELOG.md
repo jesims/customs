@@ -1,3 +1,9 @@
+# 1.3.1
+
+Fixed
+
+* `io.jesi.customs.spy/peek` and `ppeek`  not passing the value through when spy is disabled
+
 # 1.3.0
 
 Added

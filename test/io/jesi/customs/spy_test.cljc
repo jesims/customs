@@ -152,6 +152,10 @@
                    (with-out-str (reset! result (-> a spy/peek inc))))
               (is= (inc a) @result))))))
 
+    (testing "passes the value through even when disabled"
+      (let [v (rand-int 10)]
+        (is= v (spy/peek v))))
+
     (testing "evaluates the form once"
       (spy/enabled
         (set-debug true)
@@ -181,6 +185,10 @@
               (is= (str file " a:" \newline "1" \newline)
                    (with-out-str (reset! result (-> a spy/ppeek inc))))
               (is= (inc a) @result))))))
+
+    (testing "passes the value through even when disabled"
+      (let [v (rand-int 10)]
+        (is= v (spy/ppeek v))))
 
     (testing "evaluates the form once"
       (spy/enabled
