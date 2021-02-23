@@ -51,18 +51,18 @@
                  `(println (str ~(str line \space (-name form) \: \newline) (pprint-str ~form)))))))))
 
 (defn- -peek [file form val]
-  `(when-debug
-     (when *enabled*
-       (let [v# ~val]
-         (println ~(str (line-number file form) \space (-name val) \:) (pr-str v#))
-         v#))))
+  `(let [v# ~val]
+     (when-debug
+       (when *enabled*
+         (println ~(str (line-number file form) \space (-name val) \:) (pr-str v#))))
+     v#))
 
 (defn- -ppeek [file form val]
-  `(when-debug
-     (when *enabled*
-       (let [v# ~val]
-         (println (str ~(str (line-number file form) \space (-name val) \: \newline) (pprint-str v#)))
-         v#))))
+  `(let [v# ~val]
+     (when-debug
+       (when *enabled*
+         (println (str ~(str (line-number file form) \space (-name val) \: \newline) (pprint-str v#)))))
+     v#))
 
 (defn- -msg [file form & more]
   `(when-debug
