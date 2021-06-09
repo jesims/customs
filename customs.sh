@@ -1,38 +1,38 @@
 #!/usr/bin/env bash
 #shellcheck disable=2215
 cd "$(realpath "$(dirname "$0")")" &&
-source bindle/project.sh
-if [ $? -ne 0 ];then
+	source bindle/project.sh
+if [ $? -ne 0 ]; then
 	exit 1
 fi
 
 ## deps:
 ## Installs all required dependencies for Clojure and ClojureScript
-deps () {
+deps() {
 	-deps "$@"
 }
 
 ## docs:
 ## Generate api documentation
-docs () {
+docs() {
 	lein-docs
 }
 
 ## lint:
-lint () {
+lint() {
 	-lint
 	docs
 	require-committed docs
 }
 
 ## clean:
-clean () {
+clean() {
 	lein-clean
 }
 
 ## test:
 ## args: [-r]
-test () {
+test() {
 	-test-clj "$@"
 }
 
@@ -41,7 +41,7 @@ test () {
 ## [-n] run tests in NodeJS (default)
 ## [-r] test refresh in browser
 ## [-b] run tests in browser
-test-cljs () {
+test-cljs() {
 	-test-cljs "$@"
 }
 
@@ -49,26 +49,26 @@ test-cljs () {
 ## args: [-l]
 ## Pushes a snapshot to Clojars
 ## [-l] local
-snapshot () {
+snapshot() {
 	-snapshot "$@"
 }
 
 ## release:
 ## Pushes a release to Clojars
-release () {
+release() {
 	-release
 }
 
-deploy () {
+deploy() {
 	deploy-clojars
 }
 
-deploy-snapshot () {
+deploy-snapshot() {
 	deploy-clojars
 }
 
 ## outdated:
-outdated(){
+outdated() {
 	-outdated
 }
 
@@ -79,7 +79,7 @@ outdated(){
 ## [-n] Executes the tests targeting Node.js
 ## [-b] Watches and compiles tests for execution within a browser
 ## [-r] Watches tests and source files for changes, and subsequently re-evaluates with node
-test-shadow(){
+test-shadow() {
 	-test-shadow-cljs "$@"
 }
 

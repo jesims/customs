@@ -7,20 +7,19 @@
             :url          "http://www.eclipse.org/legal/epl-v10.html"
             :distribution :repo
             :comments     "same as Clojure"}
-  :plugins [[lein-parent "0.3.8"]]
+  :plugins [[lein-parent/lein-parent "0.3.8"]]
   :clean-targets ^{:protect false} [".shadow-cljs" "out" :target-path]
-  :parent-project {:coords  [io.jesi/parent "3.9.0"]
+  :parent-project {:coords  [io.jesi/parent "4.11.0"]
                    :inherit [:plugins :managed-dependencies :deploy-repositories :dependencies :profiles :test-refresh :aliases :codox]}
-  :managed-dependencies [[com.google.guava/guava "23.0"]
-                         [io.jesi/backpack "5.2.1"]]
+  :managed-dependencies [[io.jesi/backpack "7.1.0"]]
   :dependencies [[io.jesi/backpack]
                  ;CLJ
                  [org.clojure/clojure :scope "provided"]
-                 [leiningen "2.9.1" :exclusions [org.slf4j/slf4j-nop]]
-                 [org.clojure/tools.namespace "0.3.1"]
+                 [leiningen/leiningen "2.9.6" :scope "provided" :exclusions [org.slf4j/slf4j-nop]]
+                 [org.clojure/tools.namespace "1.1.0"]
                  ;CLJS
                  [org.clojure/clojurescript :scope "provided"]
-                 [pjstadig/humane-test-output "0.10.0"]]
-  :profiles {:dev [:parent/dev {:dependencies [[lein-parent "0.3.7"]
+                 [pjstadig/humane-test-output "0.11.0"]]
+  :profiles {:dev [:parent/dev {:dependencies [[lein-parent/lein-parent "0.3.8"]
                                                [org.slf4j/slf4j-simple "1.7.30"]
-                                               [thheller/shadow-cljs]]}]})
+                                               [thheller/shadow-cljs :scope "provided"]]}]})

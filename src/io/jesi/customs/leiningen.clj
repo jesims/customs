@@ -1,7 +1,6 @@
 (ns io.jesi.customs.leiningen
   (:require
     [clojure.java.io :as io]
-    [clojure.set :as set]
     [clojure.string :as str]
     [clojure.tools.namespace.file :as ns-file]
     [clojure.tools.namespace.find :as ns-find]
