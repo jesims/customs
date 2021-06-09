@@ -71,21 +71,36 @@
                     :cljs '(try
                              (clojure.core/let [value# true]
                                (if value#
-                                 (cljs.test/do-report {:type     :pass
-                                                       :expected 'true
-                                                       :actual   value#
-                                                       :message  nil})
-                                 (cljs.test/do-report {:type     :fail
-                                                       :expected 'true
-                                                       :actual   value#
-                                                       :message  nil}))
+                                 (cljs.test/report {:type       :pass
+                                                    :expected   'true
+                                                    :actual     value#
+                                                    :message    nil
+                                                    :file       nil
+                                                    :end-column nil
+                                                    :column     nil
+                                                    :line       nil
+                                                    :end-line   nil})
+                                 (cljs.test/report {:type       :fail
+                                                    :expected   'true
+                                                    :actual     value#
+                                                    :message    nil
+                                                    :file       nil
+                                                    :end-column nil
+                                                    :column     nil
+                                                    :line       nil
+                                                    :end-line   nil}))
                                value#)
                              (catch :default t#
-                               (cljs.test/do-report {:type     :error
-                                                     :expected 'true
-                                                     :actual   t#
-                                                     :message  nil}))))
-        (macroexpand '(io.jesi.customs.strict/is true))))
+                               (cljs.test/report {:type       :error
+                                                  :expected   'true
+                                                  :actual     t#
+                                                  :message    nil
+                                                  :file       nil
+                                                  :end-column nil
+                                                  :column     nil
+                                                  :line       nil
+                                                  :end-line   nil}))))
+                 (macroexpand '(io.jesi.customs.strict/is true))))
 
     (testing "takes"
 
@@ -144,21 +159,36 @@
                              (clojure.core/let [values# (clojure.core/list 1 2 3)
                                                 result# (clojure.core/apply clojure.core/= values#)]
                                (if result#
-                                 (cljs.test/do-report {:type     :pass
-                                                       :expected '(clojure.core/= 1 2 3)
-                                                       :actual   (clojure.core/cons clojure.core/= values#)
-                                                       :message  nil})
-                                 (cljs.test/do-report {:type     :fail
-                                                       :expected '(clojure.core/= 1 2 3)
-                                                       :actual   (clojure.core/list 'not (clojure.core/cons 'clojure.core/= values#))
-                                                       :message  nil}))
+                                 (cljs.test/report {:type       :pass
+                                                    :expected   '(clojure.core/= 1 2 3)
+                                                    :actual     (clojure.core/cons 'clojure.core/= values#)
+                                                    :message    nil
+                                                    :file       nil
+                                                    :end-column nil
+                                                    :column     nil
+                                                    :line       nil
+                                                    :end-line   nil})
+                                 (cljs.test/report {:type       :fail
+                                                    :expected   '(clojure.core/= 1 2 3)
+                                                    :actual     (clojure.core/list 'not (clojure.core/cons 'clojure.core/= values#))
+                                                    :message    nil
+                                                    :file       nil
+                                                    :end-column nil
+                                                    :column     nil
+                                                    :line       nil
+                                                    :end-line   nil}))
                                result#)
                              (catch :default t#
-                               (cljs.test/do-report {:type     :error
-                                                     :expected '(clojure.core/= 1 2 3)
-                                                     :actual   t#
-                                                     :message  nil}))))
-        (macroexpand '(io.jesi.customs.strict/is= 1 2 3))))
+                               (cljs.test/report {:type       :error
+                                                  :expected   '(clojure.core/= 1 2 3)
+                                                  :actual     t#
+                                                  :message    nil
+                                                  :file       nil
+                                                  :end-column nil
+                                                  :column     nil
+                                                  :line       nil
+                                                  :end-line   nil}))))
+                 (macroexpand '(io.jesi.customs.strict/is= 1 2 3))))
 
     (testing "is the same as `(is (=`"
       (is (= (is (= 1 1))
@@ -232,7 +262,7 @@
 
     (testing "fails if empty"
       (let [report (atom nil)]
-        (with-redefs [test/do-report (partial reset! report)]
+        (with-redefs [test/report (partial reset! report)]
           (strict/testing "test empty"))
         (let [{:keys [type message] :as report} @report]
           (when (is (some? report))
