@@ -22,4 +22,4 @@
                  [pjstadig/humane-test-output "0.11.0"]]
   :profiles {:dev [:parent/dev {:dependencies [[lein-parent/lein-parent "0.3.8"]
                                                [org.slf4j/slf4j-simple "1.7.30"]
-                                               [thheller/shadow-cljs :scope "provided"]]}]})
+                                               [thheller/shadow-cljs]]}]})
