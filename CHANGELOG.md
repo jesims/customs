@@ -1,3 +1,15 @@
+# 1.3.2
+
+* Updated Dependencies:
+  * `bindle` submodule to latest `master`
+  * `io.jesi/parent` to `4.12.0`
+  * `io.jesi/backpack` to `7.1.0`
+  * `leiningen/leiningen` to `2.9.6`
+  * `org.clojure/tools.namespace` to `1.1.0`
+  * `pjstadig/humane-test-output` to `0.11.0`
+* Removed Managed Dependencies:
+  * `com.google.guava/guava` to `4.11.0`
+
 # 1.3.1
 
 Fixed

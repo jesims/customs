@@ -86,7 +86,7 @@
     (let [lein-dependency 'leiningen/leiningen
           contains-leiningen? (fn [[dependency version]]
                                 (and (= lein-dependency dependency)
-                                     (= "2.9.1" version)))]
+                                     (= "2.9.6" version)))]
 
       (testing "returns a vector of dependencies"
         (let [actual (lein/deps)]
