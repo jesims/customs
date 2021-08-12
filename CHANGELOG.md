@@ -1,3 +1,10 @@
+# 1.3.3
+
+* Updated Dependencies:
+  * `bindle` submodule to latest `master`
+  * `io.jesi/parent` to `4.15.0`
+  * `io.jesi/backpack` to `7.2.0`
+
 # 1.3.2
 
 * Updated Dependencies:
